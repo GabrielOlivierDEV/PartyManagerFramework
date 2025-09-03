@@ -45,6 +45,7 @@ and teleports them into correct formation using `place_in_party_position()`.
 ## Requirements
 
 - Godot Engine 4.x
+- Set up the keys "move_up", "move_down", "move_right", "move_left, and "run".
 - Characters must:
   - Use `$AnimatedSprite2D` for animations
   - Move using `velocity`
