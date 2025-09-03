@@ -1,0 +1,107 @@
+[gd_scene load_steps=8 format=3 uid="uid://bwdrc3pvcim4g"]
+
+[ext_resource type="Script" uid="uid://335kcueb0e7w" path="res://demo/scripts/demo_scene.gd" id="1_3ja7r"]
+[ext_resource type="PackedScene" uid="uid://bqvrawslbdc8" path="res://demo/scenes/characters/blue.tscn" id="1_pd03v"]
+[ext_resource type="PackedScene" uid="uid://b3i2nyfmdy1v0" path="res://demo/scenes/characters/pink.tscn" id="4_inqgn"]
+[ext_resource type="PackedScene" uid="uid://c2ae0hydeb11p" path="res://demo/scenes/characters/purple.tscn" id="5_d5i08"]
+[ext_resource type="Script" uid="uid://drnahetxio5ff" path="res://addons/PartyManagerFramework/partymanager_helper.gd" id="6_4wxyx"]
+[ext_resource type="PackedScene" uid="uid://b0j1xweykpcm" path="res://demo/scenes/characters/orange.tscn" id="6_d5i08"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d5i08"]
+size = Vector2(88.5, 87.25)
+
+[node name="DemoScene" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_3ja7r")
+
+[node name="Blue" parent="." groups=["player"] instance=ExtResource("1_pd03v")]
+position = Vector2(716, 325)
+
+[node name="Pink" parent="." instance=ExtResource("4_inqgn")]
+y_sort_enabled = true
+position = Vector2(554, 76)
+
+[node name="Purple" parent="." instance=ExtResource("5_d5i08")]
+y_sort_enabled = true
+position = Vector2(815, 75)
+
+[node name="Orange" parent="." instance=ExtResource("6_d5i08")]
+y_sort_enabled = true
+position = Vector2(302, 73)
+
+[node name="Add_Purple_To_Party" type="Area2D" parent="."]
+position = Vector2(555, -65)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Add_Purple_To_Party"]
+position = Vector2(-458, 242)
+shape = SubResource("RectangleShape2D_d5i08")
+
+[node name="ColorRect2" type="ColorRect" parent="Add_Purple_To_Party"]
+offset_left = -501.0
+offset_top = 199.0
+offset_right = -415.0
+offset_bottom = 284.0
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="Add_Purple_To_Party"]
+offset_left = -494.0
+offset_top = 226.0
+offset_right = -421.0
+offset_bottom = 268.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 23
+text = "Purple"
+
+[node name="Add_Pink_To_Party" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Add_Pink_To_Party"]
+position = Vector2(101, 382)
+shape = SubResource("RectangleShape2D_d5i08")
+
+[node name="ColorRect" type="ColorRect" parent="Add_Pink_To_Party"]
+offset_left = 58.0
+offset_top = 340.0
+offset_right = 144.0
+offset_bottom = 425.0
+
+[node name="Label" type="Label" parent="Add_Pink_To_Party"]
+offset_left = 69.0
+offset_top = 361.0
+offset_right = 132.0
+offset_bottom = 403.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Pink"
+
+[node name="Add_Orange_To_Party" type="Area2D" parent="."]
+position = Vector2(-279, -32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Add_Orange_To_Party"]
+position = Vector2(379, 597)
+shape = SubResource("RectangleShape2D_d5i08")
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Add_Orange_To_Party"]
+offset_left = 336.0
+offset_top = 554.0
+offset_right = 422.0
+offset_bottom = 639.0
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="Add_Orange_To_Party"]
+offset_left = 343.0
+offset_top = 583.0
+offset_right = 415.0
+offset_bottom = 625.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "Orange"
+metadata/_edit_lock_ = true
+
+[node name="PartyManager" type="Node" parent="."]
+script = ExtResource("6_4wxyx")
+metadata/_custom_type_script = "uid://drnahetxio5ff"
+
+[connection signal="body_entered" from="Add_Purple_To_Party" to="." method="_on_add_purple_to_party_body_entered"]
+[connection signal="body_entered" from="Add_Pink_To_Party" to="." method="_on_add_pink_to_party_body_entered"]
+[connection signal="body_entered" from="Add_Orange_To_Party" to="." method="_on_add_orange_to_party_body_entered"]

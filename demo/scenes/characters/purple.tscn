@@ -1,0 +1,85 @@
+[gd_scene load_steps=10 format=3 uid="uid://c2ae0hydeb11p"]
+
+[ext_resource type="Script" uid="uid://bmuil4wfw2lp4" path="res://addons/PartyManagerFramework/character.gd" id="1_fr0i5"]
+[ext_resource type="Texture2D" uid="uid://de08xr8bcc73p" path="res://demo/assets/purple.png" id="2_fr0i5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_11r8x"]
+atlas = ExtResource("2_fr0i5")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kae07"]
+atlas = ExtResource("2_fr0i5")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nige2"]
+atlas = ExtResource("2_fr0i5")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uvpch"]
+atlas = ExtResource("2_fr0i5")
+region = Rect2(0, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n4wt0"]
+atlas = ExtResource("2_fr0i5")
+region = Rect2(256, 256, 256, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pe3i1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_11r8x")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kae07")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nige2")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uvpch")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n4wt0")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fr0i5"]
+radius = 19.0
+height = 72.0
+
+[node name="Purple" type="CharacterBody2D"]
+collision_mask = 2
+script = ExtResource("1_fr0i5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(4.76837e-07, 0)
+scale = Vector2(0.433594, 0.433594)
+sprite_frames = SubResource("SpriteFrames_pe3i1")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 6)
+shape = SubResource("CapsuleShape2D_fr0i5")
