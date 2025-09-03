@@ -77,7 +77,7 @@ and teleports them into correct formation using `place_in_party_position()`.
 
 ## Note from the Author.
 
-This plugin was initially developed for a JRPG project that never fully came to life. While the code is a bit amateur, I hope it can be useful for others on their game development journey.
+This plugin was initially developed for a JRPG project that never fully came to life. While the code may be a bit amateur, I hope it can still be useful in your game development journey. If you find ways to improve it or want to add new features, feel free to submit your contributions here!
 
 ## License
 
