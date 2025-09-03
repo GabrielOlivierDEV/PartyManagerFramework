@@ -1,9 +1,7 @@
 # PartyCharacterFramework – Character & Party System for Godot
-A modular plugin for **Godot 4.x** that provides a **party and character control system**.  
+A modular plugin for **Godot 4.x** that provides a **party and character control system** together with a character-npc script.  
 Designed for **RPG-style games** where you control one playable character and up to **4 dynamic NPC followers**, with smooth follower logic, party switching, and positional syncing.
 Perfect for games where party coordination, character switching, and AI follower behavior are key.
-
----
 
 ## Available Functions
 
@@ -16,16 +14,12 @@ Adds an NPC to the party if there is room.
 - Will not add the NPC if it’s already in the party.
 - Limit: 4 members besides the player. (Customizable)
 
----
-
 ### `PartyManager.remove_from_party(npc: CharacterBody2D)`
 
 Removes an NPC from the party.
 
 - Sets `is_on_party = false` and `party_position = -1`.
 - Reorganizes remaining members using `reorganize_party()`.
-
----
 
 ### `PartyManager.play_as(character: CharacterBody2D)`
 
@@ -36,43 +30,10 @@ Switches player control to the selected character.
 - Changes character's group from `npcs` to `player`.
 - Repositions all members with `place_in_party_position()`.
 
----
-
 ### `PartyManager.reorganize_party()`
 
 Reassigns `party_position` to all party members  
 and teleports them into correct formation using `place_in_party_position()`.
-
----
-
-## NPC Structure Requirements
-
-Each NPC must:
-
-- Inherit from `CharacterBody2D`
-- Include the following exported and internal variables:
-
-```gdscript
-@export var _move_speed: float
-@export var _speed_cap: float
-@export var _acceleration: float
-@export var _friction: float
-
-var playable: bool = false
-var is_on_party: bool = false
-var party_position: int = 0
-var should_follow: bool = false
-```
-
-- Implement the following functions:
-
-```gdscript
-place_in_party_position() -> void
-_process_follower_logic(_delta: float) -> void
-_physics_process(_delta: float) -> void
-```
-
----
 
 ## Movement Logic
 
@@ -81,17 +42,14 @@ _physics_process(_delta: float) -> void
 - If too far, they teleport to the correct position.
 - The member in position `1` always follows the currently playable character (`current_character[0]`).
 
----
-
 ## Requirements
 
-- Godot Engine 4.x
+- [Godot Engine 4.4.x](https://godotengine.org/)
+- Set up the keys "move_up", "move_down", "move_right", "move_left, and "run".
 - Characters must:
   - Use `$AnimatedSprite2D` for animations
   - Move using `velocity`
   - Inherit from `CharacterBody2D`
-
----
 
 ## Setup
 
@@ -117,13 +75,10 @@ _physics_process(_delta: float) -> void
 5. **Done!**
    - The Party Manager Framework is now ready to use in your project!
 
----
-
 ## Note from the Author.
 
-This plugin was initially developed for a JRPG project that never fully came to life. While the code is a bit amateur, I hope it can be useful for others on their game development journey.
+This plugin was initially developed for a JRPG project that never fully came to life. While the code may be a bit amateur, I hope it can still be useful in your game development journey. If you find ways to improve it or want to add new features, feel free to submit your contributions here!
 
 ## License
 
-**PartyManagerFramework** is an open-source project. You are free to use, modify, and distribute the code under the terms of the [MIT License](https://opensource.org/licenses/MIT).  
----
+**PartyManagerFramework** is an open-source project. You are free to use, modify, and distribute the code under the terms of the [MIT License](https://opensource.org/licenses/MIT).
