@@ -48,6 +48,7 @@ and teleports them into correct formation using `place_in_party_position()`.
 - Set up the keys "move_up", "move_down", "move_right", "move_left, and "run".
 - Characters must:
   - Use `$AnimatedSprite2D` for animations
+  - Animations must have "idle", "up", "down", "left" and "right"
   - Move using `velocity`
   - Inherit from `CharacterBody2D`
 
