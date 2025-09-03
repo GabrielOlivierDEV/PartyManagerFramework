@@ -19,6 +19,11 @@ config/icon="res://icon.svg"
 
 PartyManager="*res://addons/PartyManagerFramework/partymanager.gd"
 
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/PartyManagerFramework/plugin.cfg")

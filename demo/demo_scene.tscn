@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bwdrc3pvcim4g"]
+[gd_scene load_steps=14 format=3 uid="uid://bwdrc3pvcim4g"]
 
 [ext_resource type="Script" uid="uid://335kcueb0e7w" path="res://demo/scripts/demo_scene.gd" id="1_3ja7r"]
 [ext_resource type="PackedScene" uid="uid://bqvrawslbdc8" path="res://demo/scenes/characters/blue.tscn" id="1_pd03v"]
@@ -6,13 +6,45 @@
 [ext_resource type="PackedScene" uid="uid://c2ae0hydeb11p" path="res://demo/scenes/characters/purple.tscn" id="5_d5i08"]
 [ext_resource type="Script" uid="uid://drnahetxio5ff" path="res://addons/PartyManagerFramework/partymanager_helper.gd" id="6_4wxyx"]
 [ext_resource type="PackedScene" uid="uid://b0j1xweykpcm" path="res://demo/scenes/characters/orange.tscn" id="6_d5i08"]
+[ext_resource type="FontFile" uid="uid://ck5hbdpv7hf15" path="res://demo/fonts/PixelifySans-Regular.ttf" id="6_xdq4w"]
+[ext_resource type="Shader" uid="uid://0t1yxnyouniu" path="res://demo/shaders/screen_effect.gdshader" id="7_4wxyx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4wxyx"]
+shader = ExtResource("7_4wxyx")
+
+[sub_resource type="QuadMesh" id="QuadMesh_xdq4w"]
+size = Vector2(1280, 720)
+center_offset = Vector3(640, 360, 0)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d5i08"]
 size = Vector2(88.5, 87.25)
 
-[node name="DemoScene" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xdq4w"]
+size = Vector2(1292, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nhccy"]
+size = Vector2(137, 819)
+
+[node name="DemoScene" type="Control"]
 y_sort_enabled = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_3ja7r")
+
+[node name="PartyManager" type="Node" parent="."]
+script = ExtResource("6_4wxyx")
+metadata/_custom_type_script = "uid://drnahetxio5ff"
+
+[node name="CRT" type="CanvasLayer" parent="."]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="CRT"]
+material = SubResource("ShaderMaterial_4wxyx")
+mesh = SubResource("QuadMesh_xdq4w")
+metadata/_edit_lock_ = true
 
 [node name="Blue" parent="." groups=["player"] instance=ExtResource("1_pd03v")]
 position = Vector2(716, 325)
@@ -30,29 +62,51 @@ y_sort_enabled = true
 position = Vector2(302, 73)
 
 [node name="Add_Purple_To_Party" type="Area2D" parent="."]
-position = Vector2(555, -65)
+position = Vector2(561, -67)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Add_Purple_To_Party"]
 position = Vector2(-458, 242)
 shape = SubResource("RectangleShape2D_d5i08")
 
-[node name="ColorRect2" type="ColorRect" parent="Add_Purple_To_Party"]
+[node name="ColorRect" type="ColorRect" parent="Add_Purple_To_Party"]
 offset_left = -501.0
 offset_top = 199.0
 offset_right = -415.0
 offset_bottom = 284.0
+color = Color(0.627451, 0.12549, 0.941176, 1)
 metadata/_edit_lock_ = true
 
-[node name="Label" type="Label" parent="Add_Purple_To_Party"]
+[node name="Play" type="Label" parent="Add_Purple_To_Party"]
+visible = false
+offset_left = -487.0
+offset_top = 175.0
+offset_right = -430.0
+offset_bottom = 198.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("6_xdq4w")
+text = "Play As:"
+
+[node name="Add" type="Label" parent="Add_Purple_To_Party"]
+offset_left = -509.0
+offset_top = 173.0
+offset_right = -402.0
+offset_bottom = 196.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("6_xdq4w")
+text = "Add to Party:"
+
+[node name="Name" type="Label" parent="Add_Purple_To_Party"]
 offset_left = -494.0
 offset_top = 226.0
 offset_right = -421.0
 offset_bottom = 268.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_xdq4w")
 theme_override_font_sizes/font_size = 23
 text = "Purple"
 
 [node name="Add_Pink_To_Party" type="Area2D" parent="."]
+position = Vector2(6, -2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Add_Pink_To_Party"]
 position = Vector2(101, 382)
@@ -63,18 +117,39 @@ offset_left = 58.0
 offset_top = 340.0
 offset_right = 144.0
 offset_bottom = 425.0
+color = Color(1, 0.752941, 0.796078, 1)
 
-[node name="Label" type="Label" parent="Add_Pink_To_Party"]
+[node name="Add" type="Label" parent="Add_Pink_To_Party"]
+offset_left = 47.0
+offset_top = 315.0
+offset_right = 154.0
+offset_bottom = 335.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("6_xdq4w")
+text = "Add to Party:"
+
+[node name="Name" type="Label" parent="Add_Pink_To_Party"]
 offset_left = 69.0
 offset_top = 361.0
 offset_right = 132.0
 offset_bottom = 403.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_xdq4w")
 theme_override_font_sizes/font_size = 30
 text = "Pink"
 
+[node name="Play" type="Label" parent="Add_Pink_To_Party"]
+visible = false
+offset_left = 72.0
+offset_top = 316.0
+offset_right = 129.0
+offset_bottom = 339.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("6_xdq4w")
+text = "Play As:"
+
 [node name="Add_Orange_To_Party" type="Area2D" parent="."]
-position = Vector2(-279, -32)
+position = Vector2(-273, -34)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Add_Orange_To_Party"]
 position = Vector2(379, 597)
@@ -86,22 +161,123 @@ offset_left = 336.0
 offset_top = 554.0
 offset_right = 422.0
 offset_bottom = 639.0
+color = Color(1, 0.647059, 0, 1)
 metadata/_edit_lock_ = true
 
-[node name="Label" type="Label" parent="Add_Orange_To_Party"]
+[node name="Name" type="Label" parent="Add_Orange_To_Party"]
 offset_left = 343.0
 offset_top = 583.0
 offset_right = 415.0
 offset_bottom = 625.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_xdq4w")
 theme_override_font_sizes/font_size = 20
 text = "Orange"
 metadata/_edit_lock_ = true
 
-[node name="PartyManager" type="Node" parent="."]
-script = ExtResource("6_4wxyx")
-metadata/_custom_type_script = "uid://drnahetxio5ff"
+[node name="Add" type="Label" parent="Add_Orange_To_Party"]
+offset_left = 325.0
+offset_top = 530.0
+offset_right = 432.0
+offset_bottom = 550.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("6_xdq4w")
+text = "Add to Party:"
+
+[node name="Play" type="Label" parent="Add_Orange_To_Party"]
+visible = false
+offset_left = 349.0
+offset_top = 531.0
+offset_right = 406.0
+offset_bottom = 554.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("6_xdq4w")
+text = "Play As:"
+
+[node name="Play_As_Blue" type="Area2D" parent="."]
+position = Vector2(797, -244)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Play_As_Blue"]
+position = Vector2(379, 597)
+shape = SubResource("RectangleShape2D_d5i08")
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Play_As_Blue"]
+offset_left = 336.0
+offset_top = 554.0
+offset_right = 422.0
+offset_bottom = 639.0
+color = Color(0.392102, 0.582538, 1, 1)
+metadata/_edit_lock_ = true
+
+[node name="Name" type="Label" parent="Play_As_Blue"]
+offset_left = 343.0
+offset_top = 583.0
+offset_right = 415.0
+offset_bottom = 625.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_xdq4w")
+theme_override_font_sizes/font_size = 20
+text = "    Blue"
+metadata/_edit_lock_ = true
+
+[node name="Add" type="Label" parent="Play_As_Blue"]
+visible = false
+offset_left = 325.0
+offset_top = 530.0
+offset_right = 432.0
+offset_bottom = 550.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("6_xdq4w")
+text = "Add to Party:"
+
+[node name="Play" type="Label" parent="Play_As_Blue"]
+offset_left = 349.0
+offset_top = 531.0
+offset_right = 406.0
+offset_bottom = 554.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("6_xdq4w")
+text = "Play As:"
+
+[node name="Walls" type="StaticBody2D" parent="."]
+visible = false
+collision_layer = 2
+
+[node name="up" type="CollisionShape2D" parent="Walls"]
+position = Vector2(636, 2)
+shape = SubResource("RectangleShape2D_xdq4w")
+
+[node name="down" type="CollisionShape2D" parent="Walls"]
+position = Vector2(636, 727)
+shape = SubResource("RectangleShape2D_xdq4w")
+
+[node name="left" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-22.5, 399.5)
+shape = SubResource("RectangleShape2D_nhccy")
+
+[node name="right" type="CollisionShape2D" parent="Walls"]
+position = Vector2(1303, 401)
+shape = SubResource("RectangleShape2D_nhccy")
+
+[node name="Floor" type="ColorRect" parent="."]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 45.0
+offset_top = 19.0
+offset_right = -41.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.432624, 0.432624, 0.432624, 1)
 
 [connection signal="body_entered" from="Add_Purple_To_Party" to="." method="_on_add_purple_to_party_body_entered"]
+[connection signal="body_exited" from="Add_Purple_To_Party" to="." method="_on_add_purple_to_party_body_exited"]
 [connection signal="body_entered" from="Add_Pink_To_Party" to="." method="_on_add_pink_to_party_body_entered"]
+[connection signal="body_exited" from="Add_Pink_To_Party" to="." method="_on_add_pink_to_party_body_exited"]
 [connection signal="body_entered" from="Add_Orange_To_Party" to="." method="_on_add_orange_to_party_body_entered"]
+[connection signal="body_exited" from="Add_Orange_To_Party" to="." method="_on_add_orange_to_party_body_exited"]
+[connection signal="body_entered" from="Play_As_Blue" to="." method="_on_play_as_blue_body_entered"]
