@@ -30,6 +30,7 @@ Switches player control to the selected character.
 - Changes character's group from `npcs` to `player`.
 - Repositions all members with `place_in_party_position()`.
 - Alternatively you can set your player node (with the `character.gd` script) as "playable" on the inspector!
+![Alt text](read_me_images/playable.png)
 
 ### `PartyManager.reorganize_party()`
 
