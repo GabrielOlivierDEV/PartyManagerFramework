@@ -5,6 +5,17 @@ Designed for **RPG-style games** where you control one playable character and up
 
 ## Available Functions
 
+### `PartyManager.play_as(character: CharacterBody2D)`
+
+Switches player control to the selected character.
+
+- If another character is already playable, they switch places.
+- Updates `party_members` order.
+- Changes character's group from `npcs` to `player`.
+- Repositions all members with `place_in_party_position()`.
+- Alternatively you can set your player node (with the `character.gd` script) as "playable" on the inspector!
+![Alt text](read_me_assets/playable.png)
+
 ### `PartyManager.add_to_party(npc: CharacterBody2D)`
 
 Adds an NPC to the party if there is room.
@@ -21,21 +32,40 @@ Removes an NPC from the party.
 - Sets `is_on_party = false` and `party_position = -1`.
 - Reorganizes remaining members using `reorganize_party()`.
 
-### `PartyManager.play_as(character: CharacterBody2D)`
-
-Switches player control to the selected character.
-
-- If another character is already playable, they switch places.
-- Updates `party_members` order.
-- Changes character's group from `npcs` to `player`.
-- Repositions all members with `place_in_party_position()`.
-- Alternatively you can set your player node (with the `character.gd` script) as "playable" on the inspector!
-![Alt text](read_me_assets/playable.png)
-
 ### `PartyManager.reorganize_party()`
 
 Reassigns `party_position` to all party members  
 and teleports them into correct formation using `place_in_party_position()`.
+
+## Example Code
+
+```gdscript
+# -----------------------
+# This is a demo scene to showcase the PartyManager functionality.
+# It allows adding characters to the party and switching between them.
+# ------------------------
+@onready var blue = $Blue
+@onready var purple = $Purple
+
+# Flags to determine if the player wants to switch to a character after adding them to the party
+var play_as_purple = false
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+    PartyManager.play_as(blue)
+
+# Functions to handle adding characters to the party and switching control
+func _on_add_purple_to_party_body_entered(body: Node2D) -> void:
+    if not body.is_in_group("player"):
+        return
+    PartyManager.add_to_party(purple) # Add purple to the party
+    
+    if not play_as_purple:
+        return
+        
+    if purple.is_on_party:
+        PartyManager.play_as(purple) # Switch control to purple if the player chose to
+```
 
 ## Movement Logic
 
