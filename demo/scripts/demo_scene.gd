@@ -16,7 +16,7 @@ var play_as_orange = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	PartyManager.play_as(blue)
+	pass
 
 # Functions to handle adding characters to the party and switching control
 func _on_add_pink_to_party_body_entered(body: Node2D) -> void:

@@ -70,9 +70,11 @@ animations = [{
 radius = 19.0
 height = 72.0
 
-[node name="Purple" type="CharacterBody2D"]
+[node name="Purple" type="CharacterBody2D" node_paths=PackedStringArray("animated_sprite")]
 collision_mask = 2
 script = ExtResource("1_fr0i5")
+animated_sprite = NodePath("AnimatedSprite2D")
+update_animation = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(4.76837e-07, 0)

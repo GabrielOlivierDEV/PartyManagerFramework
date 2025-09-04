@@ -16,10 +16,11 @@ const ANIMATION_IDLE_THRESHOLD := 5.0 # Speed below which the idle animation is 
 @export var _friction: float = 100.0 # Rate of speed decrease when no input
 
 # --- Node References ---
-@onready var animated_sprite = $AnimatedSprite2D
+@export var animated_sprite: AnimatedSprite2D
 
 # --- State Variables ---
-var playable := false # If true, this character is controlled by the player
+@export var update_animation := false # Whether to update the sprite animation based on movement
+@export var playable := false # If true, this character is controlled by the player
 var is_on_party := false # Whether the character is currently in the party
 var party_position: int = 0 # Position in the party queue (0 = leader)
 var should_follow := false # Whether the character should move towards the leader
@@ -27,6 +28,9 @@ var target_velocity: Vector2 = Vector2.ZERO # Velocity target used for interpola
 
 # --- Called when the node is ready ---
 func _ready() -> void:
+	if playable:
+		PartyManager.play_as(self)
+	
 	if is_on_party:
 		place_in_party_position()
 
@@ -121,6 +125,9 @@ func _move(delta: float) -> void:
 
 # --- Updates sprite animation based on movement ---
 func _update_animation() -> void:
+	if not update_animation:
+		return
+		
 	if not animated_sprite:
 		return
 

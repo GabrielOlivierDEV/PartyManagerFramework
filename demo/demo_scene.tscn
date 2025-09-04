@@ -1,11 +1,11 @@
 [gd_scene load_steps=14 format=3 uid="uid://bwdrc3pvcim4g"]
 
 [ext_resource type="Script" uid="uid://335kcueb0e7w" path="res://demo/scripts/demo_scene.gd" id="1_3ja7r"]
-[ext_resource type="PackedScene" uid="uid://bqvrawslbdc8" path="res://demo/scenes/characters/blue.tscn" id="1_pd03v"]
-[ext_resource type="PackedScene" uid="uid://b3i2nyfmdy1v0" path="res://demo/scenes/characters/pink.tscn" id="4_inqgn"]
-[ext_resource type="PackedScene" uid="uid://c2ae0hydeb11p" path="res://demo/scenes/characters/purple.tscn" id="5_d5i08"]
+[ext_resource type="PackedScene" uid="uid://bqvrawslbdc8" path="res://demo/characters/blue.tscn" id="1_pd03v"]
+[ext_resource type="PackedScene" uid="uid://b3i2nyfmdy1v0" path="res://demo/characters/pink.tscn" id="4_inqgn"]
+[ext_resource type="PackedScene" uid="uid://c2ae0hydeb11p" path="res://demo/characters/purple.tscn" id="5_d5i08"]
 [ext_resource type="Script" uid="uid://drnahetxio5ff" path="res://addons/PartyManagerFramework/partymanager_helper.gd" id="6_4wxyx"]
-[ext_resource type="PackedScene" uid="uid://b0j1xweykpcm" path="res://demo/scenes/characters/orange.tscn" id="6_d5i08"]
+[ext_resource type="PackedScene" uid="uid://b0j1xweykpcm" path="res://demo/characters/orange.tscn" id="6_d5i08"]
 [ext_resource type="FontFile" uid="uid://ck5hbdpv7hf15" path="res://demo/fonts/PixelifySans-Regular.ttf" id="6_xdq4w"]
 [ext_resource type="Shader" uid="uid://0t1yxnyouniu" path="res://demo/shaders/screen_effect.gdshader" id="7_4wxyx"]
 
@@ -48,18 +48,19 @@ metadata/_edit_lock_ = true
 
 [node name="Blue" parent="." groups=["player"] instance=ExtResource("1_pd03v")]
 position = Vector2(716, 325)
+playable = true
 
 [node name="Pink" parent="." instance=ExtResource("4_inqgn")]
 y_sort_enabled = true
-position = Vector2(554, 76)
+position = Vector2(641, 76)
 
 [node name="Purple" parent="." instance=ExtResource("5_d5i08")]
 y_sort_enabled = true
-position = Vector2(815, 75)
+position = Vector2(902, 75)
 
 [node name="Orange" parent="." instance=ExtResource("6_d5i08")]
 y_sort_enabled = true
-position = Vector2(302, 73)
+position = Vector2(389, 73)
 
 [node name="Add_Purple_To_Party" type="Area2D" parent="."]
 position = Vector2(561, -67)
@@ -73,7 +74,7 @@ offset_left = -501.0
 offset_top = 199.0
 offset_right = -415.0
 offset_bottom = 284.0
-color = Color(0.627451, 0.12549, 0.941176, 1)
+color = Color(0.560784, 0.270588, 0.662745, 1)
 metadata/_edit_lock_ = true
 
 [node name="Play" type="Label" parent="Add_Purple_To_Party"]
@@ -117,7 +118,7 @@ offset_left = 58.0
 offset_top = 340.0
 offset_right = 144.0
 offset_bottom = 425.0
-color = Color(1, 0.752941, 0.796078, 1)
+color = Color(0.85098, 0.380392, 0.615686, 1)
 
 [node name="Add" type="Label" parent="Add_Pink_To_Party"]
 offset_left = 47.0
@@ -161,7 +162,7 @@ offset_left = 336.0
 offset_top = 554.0
 offset_right = 422.0
 offset_bottom = 639.0
-color = Color(1, 0.647059, 0, 1)
+color = Color(0.819608, 0.368627, 0.196078, 1)
 metadata/_edit_lock_ = true
 
 [node name="Name" type="Label" parent="Add_Orange_To_Party"]
@@ -207,7 +208,7 @@ offset_left = 336.0
 offset_top = 554.0
 offset_right = 422.0
 offset_bottom = 639.0
-color = Color(0.392102, 0.582538, 1, 1)
+color = Color(0.266667, 0.513726, 0.654902, 1)
 metadata/_edit_lock_ = true
 
 [node name="Name" type="Label" parent="Play_As_Blue"]
@@ -260,6 +261,18 @@ shape = SubResource("RectangleShape2D_nhccy")
 position = Vector2(1303, 401)
 shape = SubResource("RectangleShape2D_nhccy")
 
+[node name="DEMO" type="Label" parent="."]
+z_index = 1
+layout_mode = 0
+offset_left = 973.0
+offset_top = 566.0
+offset_right = 1225.0
+offset_bottom = 686.0
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("6_xdq4w")
+theme_override_font_sizes/font_size = 100
+text = "DEMO"
+
 [node name="Floor" type="ColorRect" parent="."]
 z_index = -1
 layout_mode = 1
@@ -273,6 +286,7 @@ offset_bottom = -30.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.432624, 0.432624, 0.432624, 1)
+metadata/_edit_lock_ = true
 
 [connection signal="body_entered" from="Add_Purple_To_Party" to="." method="_on_add_purple_to_party_body_entered"]
 [connection signal="body_exited" from="Add_Purple_To_Party" to="." method="_on_add_purple_to_party_body_exited"]

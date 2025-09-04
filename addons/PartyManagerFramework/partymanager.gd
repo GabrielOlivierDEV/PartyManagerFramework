@@ -115,7 +115,6 @@ func play_as(character: CharacterBody2D) -> void:
 	current_character.append(character)
 
 	print("Now playing as: ", character.name)
-	print("NPC groups: ", character.get_groups())
 
 # --- Updates party positions based on list order ---
 func reorganize_party() -> void:
