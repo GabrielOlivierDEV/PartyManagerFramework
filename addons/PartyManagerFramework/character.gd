@@ -21,7 +21,7 @@ const ANIMATION_IDLE_THRESHOLD := 5.0 # Speed below which the idle animation is 
 # --- State Variables ---
 @export var update_animation := false # Whether to update the sprite animation based on movement
 @export var playable := false # If true, this character is controlled by the player
-var is_on_party := false # Whether the character is currently in the party
+@export var is_on_party := false # Whether the character is currently in the party
 var party_position: int = 0 # Position in the party queue (0 = leader)
 var should_follow := false # Whether the character should move towards the leader
 var target_velocity: Vector2 = Vector2.ZERO # Velocity target used for interpolation
@@ -32,6 +32,7 @@ func _ready() -> void:
 		PartyManager.play_as(self)
 	
 	if is_on_party:
+		PartyManager.add_to_party(self)
 		place_in_party_position()
 
 # --- Called every physics frame ---

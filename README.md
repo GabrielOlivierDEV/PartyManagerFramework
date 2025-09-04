@@ -77,7 +77,7 @@ func _on_add_purple_to_party_body_entered(body: Node2D) -> void:
 ## Requirements
 
 - [Godot Engine 4.4.x](https://godotengine.org/)
-- Set up the keys "move_up", "move_down", "move_right", "move_left, and "run".
+- Set up the keys "move_up", "move_down", "move_right", "move_left, and "run". (The plugin does this automatically for you if you don't have it.)
 - Characters must:
   - Use `$AnimatedSprite2D` for animations
   - Animation must have "idle", "up", "down", "left" and "right"
@@ -91,6 +91,7 @@ func _on_add_purple_to_party_body_entered(body: Node2D) -> void:
 	 `res://addons/PartyManagerFramework/`
    - In the Godot Editor, go to **Project > Project Settings > Plugins**.  
    - Find `PartyManagerFramework` in the list and set it to **Active**.
+   - Reload current project.
 
 2. **Character Setup**
    - Attach the `character.gd` script to any character nodes that should be managed by the party system.  
@@ -98,8 +99,8 @@ func _on_add_purple_to_party_body_entered(body: Node2D) -> void:
 
 3. **Gameplay Usage**
    - Use the following main methods inside your gameplay logic or UI:
-	 - `PartyManager.add_to_party(character)` → adds a character to the party.
-	 - `PartyManager.play_as(character)` → sets the active playable character.
+	 - `PartyManager.add_to_party(character)` → adds a character to the party. (Alternatively you can set your player node (with the `character.gd` script) as "is_on_party" on the inspector!)
+	 - `PartyManager.play_as(character)` → sets the active playable character. (Alternatively you can set your player node (with the `character.gd` script) as "playable" on the inspector!)
 
 4. **Advanced Configuration**
    - To change the maximum number of party members, edit the `max_party_members` variable directly inside the `partymanager.gd` script.  
@@ -113,7 +114,7 @@ https://github.com/user-attachments/assets/041dbe64-e91f-4da0-ab55-8620c10ae647
 
 You can find the demo scene inside the [demo folder](https://github.com/GabrielOlivierDEV/PartyManagerFramework/tree/main/demo) of this project.
 
-## Note from the Author.
+## Note from the Author
 
 This plugin was initially developed for a JRPG project that never fully came to life. While the code may be a bit amateur, I hope it can still be useful in your game development journey. If you find ways to improve it or want to add new features, feel free to submit your contributions here!
 
