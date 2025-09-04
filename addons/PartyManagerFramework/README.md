@@ -1,11 +1,20 @@
-# PartyCharacterFramework – Character & Party System for Godot
-A modular plugin for **Godot 4.x** that provides a **party and character control system**.  
-Designed for **RPG-style games** where you control one playable character and up to **4 dynamic NPC followers**, with smooth follower logic, party switching, and positional syncing.
-Perfect for games where party coordination, character switching, and AI follower behavior are key.
+# Party Manager Framework
+A modular Godot 4.4.x plugin that offers a **party and character control system** with **built-in character–NPC scripting**.
 
----
+Designed for **RPG-style games** where you control one playable character and up to **4 dynamic NPC followers**, with smooth follower logic, party switching, and positional syncing. Perfect for games where party coordination, character switching, and AI follower behavior are key.
 
 ## Available Functions
+
+### `PartyManager.play_as(character: CharacterBody2D)`
+
+Switches player control to the selected character.
+
+- If another character is already playable, they switch places.
+- Updates `party_members` order.
+- Changes character's group from `npcs` to `player`.
+- Repositions all members with `place_in_party_position()`.
+- Alternatively you can set your player node (with the `character.gd` script) as "playable" on the inspector!
+![Alt text](read_me_assets/playable.png)
 
 ### `PartyManager.add_to_party(npc: CharacterBody2D)`
 
@@ -16,8 +25,6 @@ Adds an NPC to the party if there is room.
 - Will not add the NPC if it’s already in the party.
 - Limit: 4 members besides the player. (Customizable)
 
----
-
 ### `PartyManager.remove_from_party(npc: CharacterBody2D)`
 
 Removes an NPC from the party.
@@ -25,54 +32,40 @@ Removes an NPC from the party.
 - Sets `is_on_party = false` and `party_position = -1`.
 - Reorganizes remaining members using `reorganize_party()`.
 
----
-
-### `PartyManager.play_as(character: CharacterBody2D)`
-
-Switches player control to the selected character.
-
-- If another character is already playable, they switch places.
-- Updates `party_members` order.
-- Changes character's group from `npcs` to `player`.
-- Repositions all members with `place_in_party_position()`.
-
----
-
 ### `PartyManager.reorganize_party()`
 
 Reassigns `party_position` to all party members  
 and teleports them into correct formation using `place_in_party_position()`.
 
----
-
-## NPC Structure Requirements
-
-Each NPC must:
-
-- Inherit from `CharacterBody2D`
-- Include the following exported and internal variables:
+## Example Code
 
 ```gdscript
-@export var _move_speed: float
-@export var _speed_cap: float
-@export var _acceleration: float
-@export var _friction: float
+# -----------------------
+# This is a demo scene to showcase the PartyManager functionality.
+# It allows adding characters to the party and switching between them.
+# ------------------------
+@onready var blue = $Blue
+@onready var purple = $Purple
 
-var playable: bool = false
-var is_on_party: bool = false
-var party_position: int = 0
-var should_follow: bool = false
+# Flags to determine if the player wants to switch to a character after adding them to the party
+var play_as_purple = false
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+    PartyManager.play_as(blue)
+
+# Functions to handle adding characters to the party and switching control
+func _on_add_purple_to_party_body_entered(body: Node2D) -> void:
+    if not body.is_in_group("player"):
+        return
+    PartyManager.add_to_party(purple) # Add purple to the party
+    
+    if not play_as_purple:
+        return
+        
+    if purple.is_on_party:
+        PartyManager.play_as(purple) # Switch control to purple if the player chose to
 ```
-
-- Implement the following functions:
-
-```gdscript
-place_in_party_position() -> void
-_process_follower_logic(_delta: float) -> void
-_physics_process(_delta: float) -> void
-```
-
----
 
 ## Movement Logic
 
@@ -81,17 +74,15 @@ _physics_process(_delta: float) -> void
 - If too far, they teleport to the correct position.
 - The member in position `1` always follows the currently playable character (`current_character[0]`).
 
----
-
 ## Requirements
 
-- Godot Engine 4.x
+- [Godot Engine 4.4.x](https://godotengine.org/)
+- Set up the keys "move_up", "move_down", "move_right", "move_left, and "run". (The plugin does this automatically for you if you don't have it.)
 - Characters must:
   - Use `$AnimatedSprite2D` for animations
+  - Animation must have "idle", "up", "down", "left" and "right"
   - Move using `velocity`
   - Inherit from `CharacterBody2D`
-
----
 
 ## Setup
 
@@ -100,15 +91,17 @@ _physics_process(_delta: float) -> void
 	 `res://addons/PartyManagerFramework/`
    - In the Godot Editor, go to **Project > Project Settings > Plugins**.  
    - Find `PartyManagerFramework` in the list and set it to **Active**.
+   - Reload current project.
 
 2. **Character Setup**
    - Attach the `character.gd` script to any character nodes that should be managed by the party system.  
    - Alternatively, you can use your own custom script, as long as it follows the same structure of variables and functions.
+   - If you have the animations (idle, up, down, left, right) done, you can enable "update animation" on the character node's inspector.
 
 3. **Gameplay Usage**
    - Use the following main methods inside your gameplay logic or UI:
-	 - `PartyManager.add_to_party(character)` → adds a character to the party.
-	 - `PartyManager.play_as(character)` → sets the active playable character.
+	 - `PartyManager.add_to_party(character)` → adds a character to the party. (Alternatively you can set your player node (with the `character.gd` script) as "is_on_party" on the inspector!)
+	 - `PartyManager.play_as(character)` → sets the active playable character. (Alternatively you can set your player node (with the `character.gd` script) as "playable" on the inspector!)
 
 4. **Advanced Configuration**
    - To change the maximum number of party members, edit the `max_party_members` variable directly inside the `partymanager.gd` script.  
@@ -117,13 +110,15 @@ _physics_process(_delta: float) -> void
 5. **Done!**
    - The Party Manager Framework is now ready to use in your project!
 
----
+## Video Demo
+https://github.com/user-attachments/assets/041dbe64-e91f-4da0-ab55-8620c10ae647
 
-## Note from the Author.
+You can find the demo scene inside the [demo folder](https://github.com/GabrielOlivierDEV/PartyManagerFramework/tree/main/demo) of this project.
 
-This plugin was initially developed for a JRPG project that never fully came to life. While the code is a bit amateur, I hope it can be useful for others on their game development journey.
+## Note from the Author
+
+This plugin was initially developed for a JRPG project that never fully came to life. While the code may be a bit amateur, I hope it can still be useful in your game development journey. If you find ways to improve it or want to add new features, feel free to submit your contributions here!
 
 ## License
 
-**PartyManagerFramework** is an open-source project. You are free to use, modify, and distribute the code under the terms of the [MIT License](https://opensource.org/licenses/MIT).  
----
+**PartyManagerFramework** is an open-source project. You are free to use, modify, and distribute the code under the terms of the [MIT License](https://github.com/GabrielOlivierDEV/PartyManagerFramework/blob/main/LICENSE).
