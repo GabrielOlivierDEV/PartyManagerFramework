@@ -119,4 +119,4 @@ This plugin was initially developed for a JRPG project that never fully came to 
 
 ## License
 
-**PartyManagerFramework** is an open-source project. You are free to use, modify, and distribute the code under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+**PartyManagerFramework** is an open-source project. You are free to use, modify, and distribute the code under the terms of the [MIT License](https://github.com/GabrielOlivierDEV/PartyManagerFramework/blob/main/LICENSE).
