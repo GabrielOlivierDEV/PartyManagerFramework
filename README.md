@@ -30,7 +30,7 @@ Switches player control to the selected character.
 - Changes character's group from `npcs` to `player`.
 - Repositions all members with `place_in_party_position()`.
 - Alternatively you can set your player node (with the `character.gd` script) as "playable" on the inspector!
-![Alt text](read_me_images/playable.png)
+![Alt text](read_me_assets/playable.png)
 
 ### `PartyManager.reorganize_party()`
 
@@ -77,6 +77,10 @@ and teleports them into correct formation using `place_in_party_position()`.
 
 5. **Done!**
    - The Party Manager Framework is now ready to use in your project!
+
+## Video Demo
+[▶️ Watch Demo](read_me_assets/demo.mkv)
+This demo scene can be found on this project "demo" folder.
 
 ## Note from the Author.
 
