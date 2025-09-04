@@ -96,6 +96,7 @@ func _on_add_purple_to_party_body_entered(body: Node2D) -> void:
 2. **Character Setup**
    - Attach the `character.gd` script to any character nodes that should be managed by the party system.  
    - Alternatively, you can use your own custom script, as long as it follows the same structure of variables and functions.
+   - If you have the animations (idle, up, down, left, right) done, you can enable "update animation" on the character node's inspector.
 
 3. **Gameplay Usage**
    - Use the following main methods inside your gameplay logic or UI:
