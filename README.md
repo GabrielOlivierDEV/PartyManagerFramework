@@ -79,7 +79,7 @@ and teleports them into correct formation using `place_in_party_position()`.
    - The Party Manager Framework is now ready to use in your project!
 
 ## Video Demo
-[▶️ Watch Demo](read_me_assets/demo.mkv)
+![▶️ Watch Demo](read_me_assets/demo.mp4)
 This demo scene can be found on this project "demo" folder.
 
 ## Note from the Author.
