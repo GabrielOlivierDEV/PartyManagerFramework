@@ -1,4 +1,4 @@
-# PartyCharacterFramework – Character & Party System for Godot
+# PartyCharacterFramework
 A modular plugin for **Godot 4.x** that provides a **party and character control system** together with a character-npc script.  
 Designed for **RPG-style games** where you control one playable character and up to **4 dynamic NPC followers**, with smooth follower logic, party switching, and positional syncing.
 Perfect for games where party coordination, character switching, and AI follower behavior are key.
