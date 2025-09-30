@@ -140,16 +140,16 @@ func _update_animation() -> void:
 # --- Instantly move character to correct party position ---
 func place_in_party_position() -> void:
 	var target_node: CharacterBody2D = null
-
-	if not target_node:
-		return
-
+	
 	if party_position == 0:
 		if PartyManager.current_character.size() > 0:
 			return
 	else:
 		if party_position - 1 < PartyManager.party_members.size():
 			target_node = PartyManager.party_members[party_position - 1]
+	
+	if not target_node:
+		return
 
 	var stop_distance := BASE_FOLLOW_STOP_DISTANCE + (party_position * FOLLOW_SPACING_PER_MEMBER)
 	var target_direction = target_node.velocity.normalized()
@@ -159,3 +159,4 @@ func place_in_party_position() -> void:
 	# Position directly behind the target at the appropriate distance
 	var offset_position = target_node.global_position - (target_direction * stop_distance)
 	global_position = offset_position
+
