@@ -1,9 +1,9 @@
 # Party Manager Framework
 A modular Godot 4.4.x plugin that offers a **party and character control system** with **built-in character–NPC scripting**.
 
-Designed for **RPG-style games** where you control one playable character and up to **4 dynamic NPC followers**, with smooth follower logic, party switching, and positional syncing. Perfect for games where party coordination, character switching, and AI follower behavior are key.
+Designed for **RPG-style games** where you control one playable character and up to **4 dynamic NPC followers** (configurable via `MAX_PARTY_MEMBERS`), with smooth follower logic, party switching, and positional syncing. Perfect for games where party coordination, character switching, and AI follower behavior are key.
 
-## Available Functions
+## API reference — functions, variables and behavior
 
 ### `PartyManager.play_as(character: CharacterBody2D)`
 
@@ -34,8 +34,17 @@ Removes an NPC from the party.
 
 ### `PartyManager.reorganize_party()`
 
-Reassigns `party_position` to all party members  
-and teleports them into correct formation using `place_in_party_position()`.
+Reassigns `party_position` to all party members and teleports them into correct formation using `place_in_party_position()`.
+
+### `PartyManager.close_party()`
+
+Removes all NPCs from the party.
+
+### `PartyManager.change_scene()`
+
+Clears party data (the default implementation clears both `party_members` and `current_character`).
+
+Note: The code intentionally clears the party on scene change. If you want to preserve the party across scenes, you can change the plugin's behavior (for example, by modifying `change_scene()` to keep data in the autoload singleton) — but the default plugin clears the lists.
 
 ## Example Code
 
@@ -77,7 +86,7 @@ func _on_add_purple_to_party_body_entered(body: Node2D) -> void:
 ## Requirements
 
 - [Godot Engine 4.4.x](https://godotengine.org/)
-- Set up the keys "move_up", "move_down", "move_right", "move_left, and "run". (The plugin does this automatically for you if you don't have it.)
+ - Set up the keys "move_up", "move_down", "move_right", "move_left", and "run". (The plugin does this automatically for you if you don't have them configured.)
 - Characters must:
   - Use `$AnimatedSprite2D` for animations
   - Animation must have "idle", "up", "down", "left" and "right"
@@ -104,8 +113,16 @@ func _on_add_purple_to_party_body_entered(body: Node2D) -> void:
 	 - `PartyManager.play_as(character)` → sets the active playable character. (Alternatively you can set your player node (with the `character.gd` script) as "playable" on the inspector!)
 
 4. **Advanced Configuration**
-   - To change the maximum number of party members, edit the `max_party_members` variable directly inside the `partymanager.gd` script.  
-   - Alternatively, you can add the custom **PartyManager** node to your scene to override settings for that specific scene.
+   - To change the maximum number of party members, edit the `MAX_PARTY_MEMBERS` exported variable in `res://addons/PartyManagerFramework/partymanager.gd` or add the `PartyManager` helper node (`partymanager_helper.gd`) to a scene and set the value in the inspector. The helper syncs the inspector value to the autoload at runtime.
+   - The plugin also exposes runtime public arrays you can use from code:
+     - `PartyManager.party_members` — Array[CharacterBody2D] for follower members.
+     - `PartyManager.current_character` — Array[CharacterBody2D] holding the current playable character (index 0 if set).
+
+   Example — read the currently playable character and the followers:
+   ```gdscript
+   var current_player = PartyManager.current_character.size() > 0 ? PartyManager.current_character[0] : null
+   var members = PartyManager.party_members
+   ```
 
 5. **Done!**
    - The Party Manager Framework is now ready to use in your project!
@@ -115,6 +132,64 @@ https://github.com/user-attachments/assets/041dbe64-e91f-4da0-ab55-8620c10ae647
 
 You can find the demo scene inside the [demo folder](https://github.com/GabrielOlivierDEV/PartyManagerFramework/tree/main/demo) of this project.
 
+---
+
+## Character script (documented)
+
+The `character.gd` script attached to each character node exposes several _exported_ and state variables you can tweak in the inspector and control at runtime.
+
+- Exported/inspector-adjustable variables:
+   - `_move_speed` — base movement speed.
+   - `_speed_cap` — maximum speed while running.
+   - `_acceleration` — acceleration factor used when interpolating velocity.
+   - `_friction` — friction used when stopping.
+   - `animated_sprite` — reference to an `AnimatedSprite2D` node if you want automatic animation switching.
+   - `update_animation` — toggle automatic animation updates.
+
+- Runtime / state variables (accessible from script):
+   - `playable` — set to `true` for the currently player-controlled character.
+   - `is_on_party` — set to `true` when the character is part of the party.
+   - `party_position` — integer position in the party queue (0 = leader).
+
+- Useful method:
+   - `place_in_party_position()` — instantly teleports a character to its formation position behind the previous party member / leader.
+
+These fields allow you to tweak follower speed, teleport distances and formation behavior without editing the follower logic.
+
+## Plugin / Editor integration
+
+- The plugin registers an autoload singleton named `PartyManager` at `res://addons/PartyManagerFramework/partymanager.gd` when enabled in the editor.
+- It also registers a custom node type `PartyManager` (backed by `partymanager_helper.gd`) that allows editing `MAX_PARTY_MEMBERS` per-scene via the inspector.
+- When active, the plugin will add default input actions if missing:
+   - `move_up` (W, Arrow Up)
+   - `move_down` (S, Arrow Down)
+   - `move_left` (A, Arrow Left)
+   - `move_right` (D, Arrow Right)
+   - `run` (Shift)
+
+These are added only if they aren't already present in your project settings.
+
+## Groups and side-effects you should know
+
+- The plugin uses Godot groups to manage playable and NPC characters.
+   - When a character becomes playable, the system removes it from the `npcs` group and adds it to the `player` group.
+   - When a character becomes a follower (is_on_party = true), it will typically be in the `npcs` group.
+
+## Planned quality-of-life improvements (future)
+
+The framework works as-is, but here are a few API improvements I'm planning to add in the future for better usability:
+
+- Add accessor helpers to PartyManager API (example names):
+   - `get_current_player() -> CharacterBody2D` — returns the current playable character or `null`.
+   - `get_party_members() -> Array[CharacterBody2D]` — returns a copy or reference to party members.
+   - `is_in_party(character: CharacterBody2D) -> bool` — quick membership check.
+
+- Add signals for easy reaction to changes:
+   - `signal party_changed()`
+   - `signal current_player_changed(new_player, old_player)`
+
+These can make integrations (UI, AI triggers, quests) much simpler.
+
 ## Note from the Author
 
 This plugin was initially developed for a JRPG project that never fully came to life. While the code may be a bit amateur, I hope it can still be useful in your game development journey. If you find ways to improve it or want to add new features, feel free to submit your contributions here!
@@ -122,3 +197,4 @@ This plugin was initially developed for a JRPG project that never fully came to 
 ## License
 
 **PartyManagerFramework** is an open-source project. You are free to use, modify, and distribute the code under the terms of the [MIT License](https://github.com/GabrielOlivierDEV/PartyManagerFramework/blob/main/LICENSE).
+
