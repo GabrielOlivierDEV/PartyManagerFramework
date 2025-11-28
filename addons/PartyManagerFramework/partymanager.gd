@@ -125,39 +125,3 @@ func reorganize_party() -> void:
 		var member = party_members[i]
 		member.party_position = i
 		member.place_in_party_position()
-
-# --- Close the entire party (remove playable + NPCs) ---
-func close_party() -> void:
-	# Handle current character (if any)
-	if current_character.size() > 0:
-		var player_char: CharacterBody2D = current_character[0]
-		player_char.playable = false
-		player_char.should_follow = false
-		player_char.is_on_party = false
-
-		if player_char.is_inside_tree():
-			player_char.remove_from_group("player")
-			player_char.add_to_group("npcs")
-
-		current_character.clear()
-
-	# Handle party members
-	for member in party_members:
-		member.is_on_party = false
-		member.playable = false
-		member.should_follow = false
-		member.party_position = -1
-
-		if member.is_inside_tree():
-			member.remove_from_group("player")
-			member.add_to_group("npcs")
-
-	# Clear the list
-	party_members.clear()
-
-	print("Party closed. No active player or NPC followers remain.")
-
-# --- Clear party data on scene change ---
-func change_scene():
-	party_members.clear()
-	current_character.clear()

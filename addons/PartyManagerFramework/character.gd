@@ -166,5 +166,3 @@ func place_in_party_position() -> void:
 	# Position directly behind the target at the appropriate distance
 	var offset_position = target_node.global_position - (target_direction * stop_distance)
 	global_position = offset_position
-
-
