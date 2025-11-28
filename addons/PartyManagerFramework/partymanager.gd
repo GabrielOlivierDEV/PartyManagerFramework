@@ -5,6 +5,9 @@ extends Node
 # Maximum number of members allowed in the party
 @export var MAX_PARTY_MEMBERS := 4
 
+# --- Constants ---
+const NO_PARTY_POSITION := -1 # Marker used when a character is not in the party
+
 # Array holding all characters currently in the party (followers)
 var party_members: Array[CharacterBody2D] = []
 
@@ -39,7 +42,7 @@ func remove_from_party(character: CharacterBody2D) -> void:
 	# Remove character and reset state
 	party_members.erase(character)
 	character.is_on_party = false
-	character.party_position = -1
+	character.party_position = NO_PARTY_POSITION
 
 	# Reassign positions for remaining party members
 	reorganize_party()
@@ -54,7 +57,7 @@ func play_as(character: CharacterBody2D) -> void:
 		return
 
 	var old_char: CharacterBody2D = null
-	var old_index := -1
+	var old_index := NO_PARTY_POSITION
 
 	# If a character is currently being controlled
 	if current_character.size() > 0:

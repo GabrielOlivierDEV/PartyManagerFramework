@@ -3,6 +3,7 @@ extends EditorPlugin
 
 const PARTYMANAGER_NAME := "PartyManager"
 const PARTYMANAGER_PATH := "res://addons/PartyManagerFramework/partymanager.gd"
+const DEFAULT_DEADZONE := 0.5
 
 func _enable_plugin() -> void:
 	_add_autoload(PARTYMANAGER_NAME, PARTYMANAGER_PATH)
@@ -58,7 +59,7 @@ func _add_action_if_not_exists(action_name: String, events: Array) -> void:
 	if ProjectSettings.has_setting(path):
 		return
 	ProjectSettings.set_setting(path, {
-		"deadzone": 0.5,
+		"deadzone": DEFAULT_DEADZONE,
 		"events": events
 	})
 

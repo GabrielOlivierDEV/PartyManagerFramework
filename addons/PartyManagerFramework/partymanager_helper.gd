@@ -2,7 +2,7 @@
 @icon("res://addons/PartyManagerFramework/icon.svg")
 extends Node
 
-@export var Max_Party_Members := 4
+@export var MAX_PARTY_MEMBERS := 4
 
 func _ready() -> void:
-	PartyManager.MAX_PARTY_MEMBERS = Max_Party_Members
+	PartyManager.MAX_PARTY_MEMBERS = MAX_PARTY_MEMBERS

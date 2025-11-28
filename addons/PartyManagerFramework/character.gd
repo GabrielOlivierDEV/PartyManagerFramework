@@ -7,6 +7,13 @@ const BASE_TELEPORT_DISTANCE := 300.0 # Distance at which the follower will tele
 const TELEPORT_SPACING_PER_MEMBER := 50.0 # Extra teleport distance per party member
 const VELOCITY_TOLERANCE := 10.0 # Margin to avoid small velocity changes
 const ANIMATION_IDLE_THRESHOLD := 5.0 # Speed below which the idle animation is triggered
+const LEADER_POSITION := 0 # Party index for the leader
+const FIRST_FOLLOWER_POSITION := 1 # Party index for the first follower
+const NO_PARTY_POSITION := -1 # Marks that this character is not in the party
+
+const MIN_SPEED_RATIO := 0.8 # Minimum fraction of _move_speed when close
+const MAX_SPEED_MULTIPLIER := 2.0 # Maximum multiplier of _speed_cap when far
+const INTERPOLATION_DISTANCE := 200.0 # Range used to normalize distance for speed interpolation
 
 # --- Movement Variables ---
 @export_category("Variables")
@@ -22,7 +29,7 @@ const ANIMATION_IDLE_THRESHOLD := 5.0 # Speed below which the idle animation is 
 @export var update_animation := false # Whether to update the sprite animation based on movement
 @export var playable := false # If true, this character is controlled by the player
 @export var is_on_party := false # Whether the character is currently in the party
-var party_position: int = 0 # Position in the party queue (0 = leader)
+var party_position: int = LEADER_POSITION # Position in the party queue (0 = leader)
 var should_follow := false # Whether the character should move towards the leader
 var target_velocity: Vector2 = Vector2.ZERO # Velocity target used for interpolation
 
@@ -69,7 +76,7 @@ func _process_player_input(delta: float) -> void:
 
 # --- Follower behavior handling (smoothed follow with quicker stop) ---
 func _process_follower_logic(delta: float) -> void:
-	if party_position < 0:
+	if party_position == NO_PARTY_POSITION:
 		return
 	
 	# Get the node to follow (leader or previous party member)
@@ -99,9 +106,9 @@ func _process_follower_logic(delta: float) -> void:
 	# Adpt speed based on distance
 	# Closer = slower, Farther = faster (within limits)
 	# This creates a natural acceleration/deceleration effect
-	var min_speed = _move_speed * 0.8   # Min speed when close
-	var max_speed = _speed_cap * 2.0    # Max speed when far
-	var t = clamp((dist - stop_distance) / 200.0, 0.0, 1.0) # Normalize distance for interpolation
+	var min_speed = _move_speed * MIN_SPEED_RATIO   # Min speed when close
+	var max_speed = _speed_cap * MAX_SPEED_MULTIPLIER    # Max speed when far
+	var t = clamp((dist - stop_distance) / INTERPOLATION_DISTANCE, 0.0, 1.0) # Normalize distance for interpolation
 	var follow_speed = lerp(min_speed, max_speed, t)
 
 	var desired_velocity = Vector2.ZERO
@@ -115,7 +122,7 @@ func _process_follower_logic(delta: float) -> void:
 
 # --- Get the node this follower should follow ---
 func _get_target_node() -> CharacterBody2D:
-	if party_position == 1 and PartyManager.current_character.size() > 0:
+	if party_position == FIRST_FOLLOWER_POSITION and PartyManager.current_character.size() > 0:
 		return PartyManager.current_character[0]
 	elif party_position - 1 < PartyManager.party_members.size():
 		return PartyManager.party_members[party_position - 1]
@@ -141,7 +148,7 @@ func _update_animation() -> void:
 func place_in_party_position() -> void:
 	var target_node: CharacterBody2D = null
 	
-	if party_position == 0:
+	if party_position == LEADER_POSITION:
 		if PartyManager.current_character.size() > 0:
 			return
 	else:
@@ -159,4 +166,3 @@ func place_in_party_position() -> void:
 	# Position directly behind the target at the appropriate distance
 	var offset_position = target_node.global_position - (target_direction * stop_distance)
 	global_position = offset_position
-
