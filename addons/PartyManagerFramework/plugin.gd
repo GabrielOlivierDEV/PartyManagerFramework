@@ -5,9 +5,11 @@ const PARTYMANAGER_NAME := "PartyManager"
 const PARTYMANAGER_PATH := "res://addons/PartyManagerFramework/partymanager.gd"
 const DEFAULT_DEADZONE := 0.5
 
+func _ready() -> void:
+	add_custom_type("PartyManager", "Node", preload("res://addons/PartyManagerFramework/partymanager_helper.gd"), preload("res://addons/PartyManagerFramework/icon.svg"))
+
 func _enable_plugin() -> void:
 	_add_autoload(PARTYMANAGER_NAME, PARTYMANAGER_PATH)
-	add_custom_type("PartyManager", "Node", preload("res://addons/PartyManagerFramework/partymanager_helper.gd"), preload("res://addons/PartyManagerFramework/icon.svg"))
 	add_default_input_actions()
 
 func _disable_plugin() -> void:
@@ -50,6 +52,11 @@ func add_default_input_actions() -> void:
 	# RUN (Shift)
 	_add_action_if_not_exists("run", [
 		_create_key_event(KEY_SHIFT)
+	])
+	
+	# JUMP (Space)
+	_add_action_if_not_exists("jump", [
+		_create_key_event(KEY_SPACE)
 	])
 
 	ProjectSettings.save()

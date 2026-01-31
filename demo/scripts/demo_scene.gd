@@ -1,4 +1,4 @@
-extends Control
+extends Node2D
 
 # -----------------------
 # This is a demo scene to showcase the PartyManager functionality.
@@ -13,10 +13,6 @@ extends Control
 var play_as_purple = false
 var play_as_pink = false
 var play_as_orange = false
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass
 
 # Functions to handle adding characters to the party and switching control
 func _on_add_pink_to_party_body_entered(body: Node2D) -> void:
@@ -62,19 +58,19 @@ func _on_add_purple_to_party_body_exited(body: Node2D) -> void:
 	if not body.is_in_group("player"):
 		return
 	play_as_purple = true # Set flag to switch to purple after adding
-	$Add_Purple_To_Party/Add.visible = false
-	$Add_Purple_To_Party/Play.visible = true
+	$AddPurpleToParty/Add.visible = false
+	$AddPurpleToParty/Play.visible = true
 
 func _on_add_pink_to_party_body_exited(body: Node2D) -> void:
 	if not body.is_in_group("player"):
 		return
 	play_as_pink = true # Set flag to switch to pink after adding
-	$Add_Pink_To_Party/Add.visible = false
-	$Add_Pink_To_Party/Play.visible = true
+	$AddPinkToParty/Add.visible = false
+	$AddPinkToParty/Play.visible = true
 
 func _on_add_orange_to_party_body_exited(body: Node2D) -> void:
 	if not body.is_in_group("player"):
 		return
 	play_as_orange = true # Set flag to switch to orange after adding
-	$Add_Orange_To_Party/Add.visible = false
-	$Add_Orange_To_Party/Play.visible = true
+	$AddOrangeToParty/Add.visible = false
+	$AddOrangeToParty/Play.visible = true

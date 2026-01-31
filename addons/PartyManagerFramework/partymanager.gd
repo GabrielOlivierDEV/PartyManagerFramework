@@ -14,9 +14,11 @@ var party_members: Array[CharacterBody2D] = []
 # Array holding the currently playable character (only one expected)
 var current_character: Array[CharacterBody2D] = []
 
+
+# -------------------------------------------------------------------
 # --- Adds a character to the party ---
+# -------------------------------------------------------------------
 func add_to_party(character: CharacterBody2D) -> void:
-	# Ignore if already in the party
 	if character in party_members:
 		return
 
@@ -33,7 +35,10 @@ func add_to_party(character: CharacterBody2D) -> void:
 
 	print("NPC added to the party: ", character.name, ", position: ", character.party_position)
 
+
+# -------------------------------------------------------------------
 # --- Removes a character from the party ---
+# -------------------------------------------------------------------
 func remove_from_party(character: CharacterBody2D) -> void:
 	# Ignore if not in the party
 	if character not in party_members:
@@ -49,88 +54,86 @@ func remove_from_party(character: CharacterBody2D) -> void:
 
 	print("NPC removed from party: ", character.name)
 
+
+# -------------------------------------------------------------------
 # --- Switch control to another character ---
+# -------------------------------------------------------------------
 func play_as(character: CharacterBody2D) -> void:
-	# Ignore if already playing as this character
+	var old_char: CharacterBody2D = null
+	var old_was_in_party := false
+
+	# --- Already controlling this character ---
 	if current_character.has(character):
-		print("Already playing as: ", character.name)
 		return
 
-	var old_char: CharacterBody2D = null
-	var old_index := NO_PARTY_POSITION
-
-	# If a character is currently being controlled
+	# --- If someone is currently playable ---
 	if current_character.size() > 0:
 		old_char = current_character[0]
+		old_was_in_party = old_char in party_members
+
+		# Old character becomes follower
 		old_char.playable = false
 		old_char.should_follow = true
 		old_char.is_on_party = true
 
-		# If the new character is already in the party
-		if character in party_members:
-			old_index = party_members.find(character)
-			var temp = character
-			var player_was_in_party := old_char in party_members
-
-			# Swap positions in party
-			if player_was_in_party:
-				var player_index = party_members.find(old_char)
-				party_members[old_index] = old_char
-				party_members[player_index] = character
-			else:
-				# Insert new playable character at start
-				party_members[old_index] = old_char
-				party_members.insert(0, character)
-
-			character.is_on_party = false
-		else:
-			# If new character isn't in party, insert it and push the old one in
-			party_members.insert(0, character)
-			party_members.append(old_char)
-			character.is_on_party = false
-
-		# Reassign positions to everyone
-		reorganize_party()
-
-		# Remove old character from player group
-		if old_char.is_inside_tree():
-			old_char.remove_from_group("player")
-			old_char.add_to_group("npcs")
-
-	else:
-		# First time controlling a character
+		# If the new character is already in party, remove it
 		if character in party_members:
 			party_members.erase(character)
-		character.is_on_party = false
 
-	# Make new character playable
+		# Ensure old char is in party
+		if not old_was_in_party:
+			party_members.append(old_char)
+
+	else:
+		# First playable character EVER
+		if character in party_members:
+			party_members.erase(character)
+
+	# New active character
+	character.is_on_party = false
 	character.playable = true
 	character.should_follow = false
-	add_to_party(character)
 
-	# Update groups
+	party_members.insert(0, character)
+
+	# --- Update party order and positions ---
+	reorganize_party()
+
+	# --- Update groups ---
+	if old_char and old_char.is_inside_tree():
+		old_char.remove_from_group("player")
+		old_char.add_to_group("npcs")
+
 	if character.is_inside_tree():
 		character.remove_from_group("npcs")
 		character.add_to_group("player")
 
-	# Set current playable character
+	# --- Update current character list ---
 	current_character.clear()
 	current_character.append(character)
 
 	print("Now playing as: ", character.name)
 
-# --- Updates party positions based on list order ---
+
+# -------------------------------------------------------------------
+# --- Updates party positions ---
+# -------------------------------------------------------------------
 func reorganize_party() -> void:
 	for i in range(party_members.size()):
 		var member = party_members[i]
 		member.party_position = i
 		member.place_in_party_position()
 
-# --- Close the entire party (remove playable + NPCs) ---
+
+# -------------------------------------------------------------------
+# --- Close the entire party ---
+# -------------------------------------------------------------------
 func close_party() -> void:
-	# Handle current character (if any)
+	# --- Clean current_character safely ---
 	if current_character.size() > 0:
-		var player_char: CharacterBody2D = current_character[0]
+		var player_char := current_character[0]
+
+		# Reset state
 		player_char.playable = false
 		player_char.should_follow = false
 		player_char.is_on_party = false
@@ -139,25 +142,55 @@ func close_party() -> void:
 			player_char.remove_from_group("player")
 			player_char.add_to_group("npcs")
 
-		current_character.clear()
+	### Avoid ghost references
+	current_character.clear()
 
-	# Handle party members
+	# --- Safely reset party members ---
 	for member in party_members:
 		member.is_on_party = false
 		member.playable = false
 		member.should_follow = false
-		member.party_position = -1
+		member.party_position = NO_PARTY_POSITION
 
 		if member.is_inside_tree():
 			member.remove_from_group("player")
 			member.add_to_group("npcs")
 
-	# Clear the list
+	### Ensure no nodes remain referenced
 	party_members.clear()
 
 	print("Party closed. No active player or NPC followers remain.")
 
-# --- Clear party data on scene change ---
+
+# -------------------------------------------------------------------
+# --- Scene change cleanup ---
+# -------------------------------------------------------------------
 func change_scene():
-	party_members.clear()
+	### Guarantee no references to nodes remain
 	current_character.clear()
+	party_members.clear()
+
+
+# -------------------------------------------------------------------
+# --- Query functions ---
+# -------------------------------------------------------------------
+func has_member(target_name: String) -> bool:
+	for member in party_members:
+		if member.name == target_name:
+			return true
+	return false
+
+
+func has_members(target_names: Array[String]) -> bool:
+	for _name in target_names:
+		var found := false
+
+		for member in party_members:
+			if member.name == _name:
+				found = true
+				break
+
+		if not found:
+			return false
+
+	return true

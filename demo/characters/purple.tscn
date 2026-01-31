@@ -71,7 +71,8 @@ radius = 19.0
 height = 72.0
 
 [node name="Purple" type="CharacterBody2D" node_paths=PackedStringArray("animated_sprite")]
-collision_mask = 2
+y_sort_enabled = true
+collision_mask = 6
 script = ExtResource("1_fr0i5")
 animated_sprite = NodePath("AnimatedSprite2D")
 update_animation = true

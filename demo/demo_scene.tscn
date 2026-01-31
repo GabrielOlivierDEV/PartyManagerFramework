@@ -20,19 +20,13 @@ center_offset = Vector3(640, 360, 0)
 size = Vector2(88.5, 87.25)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xdq4w"]
-size = Vector2(1292, 128)
+size = Vector2(1292, 99)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nhccy"]
 size = Vector2(137, 819)
 
-[node name="DemoScene" type="Control"]
+[node name="DemoScene" type="Node2D"]
 y_sort_enabled = true
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 script = ExtResource("1_3ja7r")
 
 [node name="PartyManager" type="Node" parent="."]
@@ -51,25 +45,22 @@ position = Vector2(716, 325)
 playable = true
 
 [node name="Pink" parent="." instance=ExtResource("4_inqgn")]
-y_sort_enabled = true
 position = Vector2(641, 76)
 
 [node name="Purple" parent="." instance=ExtResource("5_d5i08")]
-y_sort_enabled = true
 position = Vector2(902, 75)
 
 [node name="Orange" parent="." instance=ExtResource("6_d5i08")]
-y_sort_enabled = true
 position = Vector2(389, 73)
 
-[node name="Add_Purple_To_Party" type="Area2D" parent="."]
-position = Vector2(561, -67)
+[node name="AddPurpleToParty" type="Area2D" parent="."]
+position = Vector2(561, -66)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Add_Purple_To_Party"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AddPurpleToParty"]
 position = Vector2(-458, 242)
 shape = SubResource("RectangleShape2D_d5i08")
 
-[node name="ColorRect" type="ColorRect" parent="Add_Purple_To_Party"]
+[node name="ColorRect" type="ColorRect" parent="AddPurpleToParty"]
 offset_left = -501.0
 offset_top = 199.0
 offset_right = -415.0
@@ -77,7 +68,7 @@ offset_bottom = 284.0
 color = Color(0.560784, 0.270588, 0.662745, 1)
 metadata/_edit_lock_ = true
 
-[node name="Play" type="Label" parent="Add_Purple_To_Party"]
+[node name="Play" type="Label" parent="AddPurpleToParty"]
 visible = false
 offset_left = -487.0
 offset_top = 175.0
@@ -87,7 +78,7 @@ theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("6_xdq4w")
 text = "Play As:"
 
-[node name="Add" type="Label" parent="Add_Purple_To_Party"]
+[node name="Add" type="Label" parent="AddPurpleToParty"]
 offset_left = -509.0
 offset_top = 173.0
 offset_right = -402.0
@@ -96,7 +87,7 @@ theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("6_xdq4w")
 text = "Add to Party:"
 
-[node name="Name" type="Label" parent="Add_Purple_To_Party"]
+[node name="Name" type="Label" parent="AddPurpleToParty"]
 offset_left = -494.0
 offset_top = 226.0
 offset_right = -421.0
@@ -106,21 +97,21 @@ theme_override_fonts/font = ExtResource("6_xdq4w")
 theme_override_font_sizes/font_size = 23
 text = "Purple"
 
-[node name="Add_Pink_To_Party" type="Area2D" parent="."]
+[node name="AddPinkToParty" type="Area2D" parent="."]
 position = Vector2(6, -2)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Add_Pink_To_Party"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AddPinkToParty"]
 position = Vector2(101, 382)
 shape = SubResource("RectangleShape2D_d5i08")
 
-[node name="ColorRect" type="ColorRect" parent="Add_Pink_To_Party"]
+[node name="ColorRect" type="ColorRect" parent="AddPinkToParty"]
 offset_left = 58.0
 offset_top = 340.0
 offset_right = 144.0
 offset_bottom = 425.0
 color = Color(0.85098, 0.380392, 0.615686, 1)
 
-[node name="Add" type="Label" parent="Add_Pink_To_Party"]
+[node name="Add" type="Label" parent="AddPinkToParty"]
 offset_left = 47.0
 offset_top = 315.0
 offset_right = 154.0
@@ -129,7 +120,7 @@ theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("6_xdq4w")
 text = "Add to Party:"
 
-[node name="Name" type="Label" parent="Add_Pink_To_Party"]
+[node name="Name" type="Label" parent="AddPinkToParty"]
 offset_left = 69.0
 offset_top = 361.0
 offset_right = 132.0
@@ -139,7 +130,7 @@ theme_override_fonts/font = ExtResource("6_xdq4w")
 theme_override_font_sizes/font_size = 30
 text = "Pink"
 
-[node name="Play" type="Label" parent="Add_Pink_To_Party"]
+[node name="Play" type="Label" parent="AddPinkToParty"]
 visible = false
 offset_left = 72.0
 offset_top = 316.0
@@ -149,15 +140,15 @@ theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("6_xdq4w")
 text = "Play As:"
 
-[node name="Add_Orange_To_Party" type="Area2D" parent="."]
+[node name="AddOrangeToParty" type="Area2D" parent="."]
 position = Vector2(-273, -34)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Add_Orange_To_Party"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AddOrangeToParty"]
 position = Vector2(379, 597)
 shape = SubResource("RectangleShape2D_d5i08")
 metadata/_edit_lock_ = true
 
-[node name="ColorRect" type="ColorRect" parent="Add_Orange_To_Party"]
+[node name="ColorRect" type="ColorRect" parent="AddOrangeToParty"]
 offset_left = 336.0
 offset_top = 554.0
 offset_right = 422.0
@@ -165,7 +156,7 @@ offset_bottom = 639.0
 color = Color(0.819608, 0.368627, 0.196078, 1)
 metadata/_edit_lock_ = true
 
-[node name="Name" type="Label" parent="Add_Orange_To_Party"]
+[node name="Name" type="Label" parent="AddOrangeToParty"]
 offset_left = 343.0
 offset_top = 583.0
 offset_right = 415.0
@@ -176,7 +167,7 @@ theme_override_font_sizes/font_size = 20
 text = "Orange"
 metadata/_edit_lock_ = true
 
-[node name="Add" type="Label" parent="Add_Orange_To_Party"]
+[node name="Add" type="Label" parent="AddOrangeToParty"]
 offset_left = 325.0
 offset_top = 530.0
 offset_right = 432.0
@@ -185,7 +176,7 @@ theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("6_xdq4w")
 text = "Add to Party:"
 
-[node name="Play" type="Label" parent="Add_Orange_To_Party"]
+[node name="Play" type="Label" parent="AddOrangeToParty"]
 visible = false
 offset_left = 349.0
 offset_top = 531.0
@@ -195,15 +186,15 @@ theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("6_xdq4w")
 text = "Play As:"
 
-[node name="Play_As_Blue" type="Area2D" parent="."]
+[node name="PlayAsBlue" type="Area2D" parent="."]
 position = Vector2(797, -244)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Play_As_Blue"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayAsBlue"]
 position = Vector2(379, 597)
 shape = SubResource("RectangleShape2D_d5i08")
 metadata/_edit_lock_ = true
 
-[node name="ColorRect" type="ColorRect" parent="Play_As_Blue"]
+[node name="ColorRect" type="ColorRect" parent="PlayAsBlue"]
 offset_left = 336.0
 offset_top = 554.0
 offset_right = 422.0
@@ -211,7 +202,7 @@ offset_bottom = 639.0
 color = Color(0.266667, 0.513726, 0.654902, 1)
 metadata/_edit_lock_ = true
 
-[node name="Name" type="Label" parent="Play_As_Blue"]
+[node name="Name" type="Label" parent="PlayAsBlue"]
 offset_left = 343.0
 offset_top = 583.0
 offset_right = 415.0
@@ -222,7 +213,7 @@ theme_override_font_sizes/font_size = 20
 text = "    Blue"
 metadata/_edit_lock_ = true
 
-[node name="Add" type="Label" parent="Play_As_Blue"]
+[node name="Add" type="Label" parent="PlayAsBlue"]
 visible = false
 offset_left = 325.0
 offset_top = 530.0
@@ -232,7 +223,7 @@ theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("6_xdq4w")
 text = "Add to Party:"
 
-[node name="Play" type="Label" parent="Play_As_Blue"]
+[node name="Play" type="Label" parent="PlayAsBlue"]
 offset_left = 349.0
 offset_top = 531.0
 offset_right = 406.0
@@ -242,28 +233,26 @@ theme_override_fonts/font = ExtResource("6_xdq4w")
 text = "Play As:"
 
 [node name="Walls" type="StaticBody2D" parent="."]
-visible = false
-collision_layer = 2
+collision_layer = 4
 
-[node name="up" type="CollisionShape2D" parent="Walls"]
-position = Vector2(636, 2)
+[node name="Up" type="CollisionShape2D" parent="Walls"]
+position = Vector2(636, -12.5)
 shape = SubResource("RectangleShape2D_xdq4w")
 
-[node name="down" type="CollisionShape2D" parent="Walls"]
+[node name="Down" type="CollisionShape2D" parent="Walls"]
 position = Vector2(636, 727)
 shape = SubResource("RectangleShape2D_xdq4w")
 
-[node name="left" type="CollisionShape2D" parent="Walls"]
+[node name="Left" type="CollisionShape2D" parent="Walls"]
 position = Vector2(-22.5, 399.5)
 shape = SubResource("RectangleShape2D_nhccy")
 
-[node name="right" type="CollisionShape2D" parent="Walls"]
+[node name="Right" type="CollisionShape2D" parent="Walls"]
 position = Vector2(1303, 401)
 shape = SubResource("RectangleShape2D_nhccy")
 
-[node name="DEMO" type="Label" parent="."]
+[node name="Demo" type="Label" parent="."]
 z_index = 1
-layout_mode = 0
 offset_left = 973.0
 offset_top = 566.0
 offset_right = 1225.0
@@ -275,7 +264,6 @@ text = "DEMO"
 
 [node name="Floor" type="ColorRect" parent="."]
 z_index = -1
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -288,10 +276,10 @@ grow_vertical = 2
 color = Color(0.432624, 0.432624, 0.432624, 1)
 metadata/_edit_lock_ = true
 
-[connection signal="body_entered" from="Add_Purple_To_Party" to="." method="_on_add_purple_to_party_body_entered"]
-[connection signal="body_exited" from="Add_Purple_To_Party" to="." method="_on_add_purple_to_party_body_exited"]
-[connection signal="body_entered" from="Add_Pink_To_Party" to="." method="_on_add_pink_to_party_body_entered"]
-[connection signal="body_exited" from="Add_Pink_To_Party" to="." method="_on_add_pink_to_party_body_exited"]
-[connection signal="body_entered" from="Add_Orange_To_Party" to="." method="_on_add_orange_to_party_body_entered"]
-[connection signal="body_exited" from="Add_Orange_To_Party" to="." method="_on_add_orange_to_party_body_exited"]
-[connection signal="body_entered" from="Play_As_Blue" to="." method="_on_play_as_blue_body_entered"]
+[connection signal="body_entered" from="AddPurpleToParty" to="." method="_on_add_purple_to_party_body_entered"]
+[connection signal="body_exited" from="AddPurpleToParty" to="." method="_on_add_purple_to_party_body_exited"]
+[connection signal="body_entered" from="AddPinkToParty" to="." method="_on_add_pink_to_party_body_entered"]
+[connection signal="body_exited" from="AddPinkToParty" to="." method="_on_add_pink_to_party_body_exited"]
+[connection signal="body_entered" from="AddOrangeToParty" to="." method="_on_add_orange_to_party_body_entered"]
+[connection signal="body_exited" from="AddOrangeToParty" to="." method="_on_add_orange_to_party_body_exited"]
+[connection signal="body_entered" from="PlayAsBlue" to="." method="_on_play_as_blue_body_entered"]
