@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Character
 
 # --- Config Constants ---
 const BASE_FOLLOW_STOP_DISTANCE := 80.0       # Base distance to stop following the target
@@ -14,6 +15,8 @@ const NO_PARTY_POSITION := -1                 # Marks that this character is not
 const MIN_SPEED_RATIO := 0.8                  # Minimum fraction of _move_speed
 const MAX_SPEED_MULTIPLIER := 2.0             # Maximum multiplier of _speed_cap
 const INTERPOLATION_DISTANCE := 200.0         # Range used for speed interpolation
+
+@export var character_id : String
 
 # --- Movement Variables ---
 @export_category("Movement Variables")
@@ -55,7 +58,6 @@ func _ready() -> void:
 # PHYSICS PROCESS
 # =======================================================
 func _physics_process(delta: float) -> void:
-	
 	if playable:
 		# Process player-controlled movement
 		_process_player_input(delta)
@@ -63,7 +65,7 @@ func _physics_process(delta: float) -> void:
 	elif is_on_party:
 		# Process follower movement
 		_process_follower_logic(delta)
-
+	
 	# Apply physics and animation regardless of control type
 	move_and_slide()
 	_update_animation()
@@ -155,7 +157,7 @@ func _get_target_node() -> CharacterBody2D:
 func _update_animation() -> void:
 	if not update_animation or not animated_sprite:
 		return
-		
+
 	# Idle state
 	if velocity.length() < ANIMATION_IDLE_THRESHOLD:
 		animated_sprite.pause()

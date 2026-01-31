@@ -9,11 +9,10 @@ extends Node
 const NO_PARTY_POSITION := -1 # Marker used when a character is not in the party
 
 # Array holding all characters currently in the party (followers)
-var party_members: Array[CharacterBody2D] = []
+var party_members: Array[Character] = []
 
 # Array holding the currently playable character (only one expected)
-var current_character: Array[CharacterBody2D] = []
-
+var current_character: Array[Character] = []
 
 # -------------------------------------------------------------------
 # --- Adds a character to the party ---
@@ -174,19 +173,19 @@ func change_scene():
 # -------------------------------------------------------------------
 # --- Query functions ---
 # -------------------------------------------------------------------
-func has_member(target_name: String) -> bool:
+func has_member(character_id: String) -> bool:
 	for member in party_members:
-		if member.name == target_name:
+		if member.character_id == character_id:
 			return true
 	return false
 
 
 func has_members(target_names: Array[String]) -> bool:
-	for _name in target_names:
+	for name in target_names:
 		var found := false
 
 		for member in party_members:
-			if member.name == _name:
+			if member.name == name:
 				found = true
 				break
 
