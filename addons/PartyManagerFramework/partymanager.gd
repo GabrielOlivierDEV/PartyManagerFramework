@@ -177,24 +177,22 @@ func change_scene():
 # -------------------------------------------------------------------
 # --- Query functions ---
 # -------------------------------------------------------------------
-func has_member(character_id: String) -> bool:
-	# Check if any party member matches the given ID
+func is_in_party(character_id: String) -> bool:
+	# Check if a character with the given ID is in the party
 	for member in party_members:
 		if member.character_id == character_id:
 			return true
 	return false
 
-func has_members(target_names: Array[String]) -> bool:
-	# Check if all target names are present in the party
-	for name in target_names:
-		var found := false
+func get_current_player() -> String:
+	# Return the currently playable character, if any
+	if current_character.size() > 0:
+		return current_character[0].name
+	return ""
 
-		for member in party_members:
-			if member.name == name:
-				found = true
-				break
-
-		if not found:
-			return false
-
-	return true
+func get_party_members() -> Array[String]:
+	# Return a list of names of all party members
+	var names: Array[String] = []
+	for member in party_members:
+		names.append(member.name)
+	return names
