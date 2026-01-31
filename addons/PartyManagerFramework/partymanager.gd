@@ -7,6 +7,12 @@ extends Node
 
 # --- Constants ---
 const NO_PARTY_POSITION := -1 # Marker used when a character is not in the party
+const PLAYING_AS_MSG := "Now playing as: "
+const NPC_ADDED_MSG := "NPC added to the party: "
+const NPC_REMOVED_MSG := "NPC removed from party: "
+const MAX_PARTY_MSG := "Max party! It was not possible to add: "
+const PARTY_CLOSED_MSG := "Party closed. No active player or NPC followers remain."
+const POSITION_MSG := ", position: "
 
 # Array holding all characters currently in the party (followers)
 var party_members: Array[Character] = []
@@ -18,12 +24,13 @@ var current_character: Array[Character] = []
 # --- Adds a character to the party ---
 # -------------------------------------------------------------------
 func add_to_party(character: CharacterBody2D) -> void:
+	# Ignore if already in the party
 	if character in party_members:
 		return
 
 	# Do not allow adding more than max limit
 	if party_members.size() >= MAX_PARTY_MEMBERS:
-		print("Max party! It was not possible to add: ", character.name)
+		print(MAX_PARTY_MSG, character.name)
 		return
 
 	# Add character and set properties
@@ -32,8 +39,7 @@ func add_to_party(character: CharacterBody2D) -> void:
 	character.party_position = party_members.size() - 1
 	character.place_in_party_position()
 
-	print("NPC added to the party: ", character.name, ", position: ", character.party_position)
-
+	print(NPC_ADDED_MSG, character.name, POSITION_MSG, character.party_position)
 
 # -------------------------------------------------------------------
 # --- Removes a character from the party ---
@@ -51,13 +57,13 @@ func remove_from_party(character: CharacterBody2D) -> void:
 	# Reassign positions for remaining party members
 	reorganize_party()
 
-	print("NPC removed from party: ", character.name)
-
+	print(NPC_REMOVED_MSG, character.name)
 
 # -------------------------------------------------------------------
 # --- Switch control to another character ---
 # -------------------------------------------------------------------
 func play_as(character: CharacterBody2D) -> void:
+	# --- Variables to track old character state ---
 	var old_char: CharacterBody2D = null
 	var old_was_in_party := false
 
@@ -111,8 +117,7 @@ func play_as(character: CharacterBody2D) -> void:
 	current_character.clear()
 	current_character.append(character)
 
-	print("Now playing as: ", character.name)
-
+	print(PLAYING_AS_MSG, character.name)
 
 # -------------------------------------------------------------------
 # --- Updates party positions ---
@@ -122,7 +127,6 @@ func reorganize_party() -> void:
 		var member = party_members[i]
 		member.party_position = i
 		member.place_in_party_position()
-
 
 # -------------------------------------------------------------------
 # --- Close the entire party ---
@@ -137,6 +141,7 @@ func close_party() -> void:
 		player_char.should_follow = false
 		player_char.is_on_party = false
 
+		# Update groups
 		if player_char.is_inside_tree():
 			player_char.remove_from_group("player")
 			player_char.add_to_group("npcs")
@@ -151,6 +156,7 @@ func close_party() -> void:
 		member.should_follow = false
 		member.party_position = NO_PARTY_POSITION
 
+		# Update groups
 		if member.is_inside_tree():
 			member.remove_from_group("player")
 			member.add_to_group("npcs")
@@ -158,8 +164,7 @@ func close_party() -> void:
 	### Ensure no nodes remain referenced
 	party_members.clear()
 
-	print("Party closed. No active player or NPC followers remain.")
-
+	print(PARTY_CLOSED_MSG)
 
 # -------------------------------------------------------------------
 # --- Scene change cleanup ---
@@ -169,18 +174,18 @@ func change_scene():
 	current_character.clear()
 	party_members.clear()
 
-
 # -------------------------------------------------------------------
 # --- Query functions ---
 # -------------------------------------------------------------------
 func has_member(character_id: String) -> bool:
+	# Check if any party member matches the given ID
 	for member in party_members:
 		if member.character_id == character_id:
 			return true
 	return false
 
-
 func has_members(target_names: Array[String]) -> bool:
+	# Check if all target names are present in the party
 	for name in target_names:
 		var found := false
 
