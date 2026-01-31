@@ -196,3 +196,7 @@ func get_party_members() -> Array[String]:
 	for member in party_members:
 		names.append(member.name)
 	return names
+
+func get_party_size() -> int:
+	# Return the current number of party members
+	return party_members.size()

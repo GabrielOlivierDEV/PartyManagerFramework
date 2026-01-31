@@ -3,6 +3,11 @@ A modular Godot 4.4.x plugin that offers a **party and character control system*
 
 Designed for **RPG-style games** where you control one playable character and up to **4 dynamic NPC followers** (configurable via `MAX_PARTY_MEMBERS`), with smooth follower logic, party switching, and positional syncing. Perfect for games where party coordination, character switching, and AI follower behavior are key.
 
+## How it works
+The Party Manager Framework uses a combination of Godot's node system, groups, and custom scripts to manage party members and their behavior. Each character in the game is expected to have a script (like `character.gd`) that defines its movement, animation, and party-related properties.
+
+When a character is added to the party, it is assigned a `party_position` which determines its order in the formation. The `place_in_party_position()` method calculates the correct position behind the leader or the previous member based on this order.
+
 ## API reference — functions, variables and behavior
 
 ### `PartyManager.play_as(character: CharacterBody2D)`
@@ -45,6 +50,22 @@ Removes all NPCs from the party.
 Clears party data (the default implementation clears both `party_members` and `current_character`).
 
 Note: The code intentionally clears the party on scene change. If you want to preserve the party across scenes, you can change the plugin's behavior (for example, by modifying `change_scene()` to keep data in the autoload singleton) — but the default plugin clears the lists.
+
+### `PartyManager.is_in_party(character_id: String)`
+
+Returns `true` if a character with the given `character_id` is in the party.
+
+### `PartyManager.get_current_player() -> String`
+
+Returns the currently playable character in the party.
+
+### `PartyManager.get_party_members() -> Array[String]`
+
+Returns an array of character IDs for all current party members.
+
+### `PartyManager.get_party_size() -> int`
+
+Returns the current number of party members.
 
 ## Example Code
 
