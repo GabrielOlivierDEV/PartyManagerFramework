@@ -75,7 +75,7 @@ func _physics_process(delta: float) -> void:
 # =======================================================
 func _process_player_input(delta: float) -> void:
 	# Get input direction
-	var input_dir := Vector2(
+	var input_dir: Vector2 = Vector2(
 		Input.get_axis("move_left", "move_right"),
 		Input.get_axis("move_up", "move_down")
 	).normalized()
@@ -85,12 +85,13 @@ func _process_player_input(delta: float) -> void:
 		camera_2d.enabled = use_camera_2d
 
 	# Determine target velocity based on input
-	var max_speed := _speed_cap if Input.is_action_pressed("run") else _move_speed
+	var max_speed: float = _speed_cap if Input.is_action_pressed("run") else _move_speed
 	target_velocity = input_dir * max_speed if input_dir != Vector2.ZERO else Vector2.ZERO
 
 	# Smoothly interpolate current velocity towards target velocity
-	var factor := _acceleration if input_dir != Vector2.ZERO else _friction
-	var lerp_factor := clamp(factor * delta, 0.0, 1.0)
+	var factor: float = _acceleration if input_dir != Vector2.ZERO else _friction
+	var lerp_factor: float = clamp(factor * delta, 0.0, 1.0)
+
 	velocity = velocity.lerp(target_velocity, lerp_factor)
 
 # =======================================================
@@ -106,37 +107,44 @@ func _process_follower_logic(delta: float) -> void:
 		return
 
 	# Get the node to follow (leader or previous party member)
-	var target_node := _get_target_node()
+	var target_node: Character = _get_target_node()
 	if not target_node:
 		return
 
 	# Calculate distance to target
-	var offset := target_node.global_position - global_position
-	var dist := offset.length()
+	var offset: Vector2 = target_node.global_position - global_position
+	var dist: float = offset.length()
 
 	# Teleport check
-	var teleport_distance := BASE_TELEPORT_DISTANCE + party_position * TELEPORT_SPACING_PER_MEMBER
+	var teleport_distance: float = BASE_TELEPORT_DISTANCE + party_position * TELEPORT_SPACING_PER_MEMBER
 	if dist > teleport_distance:
 		place_in_party_position()
 		return
 
 	# Stop-distance
-	var stop_distance := BASE_FOLLOW_STOP_DISTANCE + party_position * FOLLOW_SPACING_PER_MEMBER
+	var stop_distance: float = BASE_FOLLOW_STOP_DISTANCE + party_position * FOLLOW_SPACING_PER_MEMBER
 	if dist <= stop_distance:
 		velocity = Vector2.ZERO
 		target_velocity = Vector2.ZERO
 		return
+
 	
 	# Adpt speed based on distance
 	# Closer = slower, Farther = faster (within limits)
 	# This creates a natural acceleration/deceleration effect
-	var direction := offset.normalized()
-	var min_speed := _move_speed * MIN_SPEED_RATIO   # Min speed when close
-	var max_speed := _speed_cap * MAX_SPEED_MULTIPLIER
-	var t := clamp((dist - stop_distance) / INTERPOLATION_DISTANCE, 0.0, 1.0)
-	var follow_speed := lerp(min_speed, max_speed, t)
+	var direction: Vector2 = offset.normalized()
+	var min_speed: float = _move_speed * MIN_SPEED_RATIO
+	var max_speed: float = _speed_cap * MAX_SPEED_MULTIPLIER
+
+	var t: float = clamp(
+		(dist - stop_distance) / INTERPOLATION_DISTANCE,
+		0.0,
+		1.0
+	)
+
+	var follow_speed: float = lerp(min_speed, max_speed, t)
 	var desired_velocity: Vector2 = direction * follow_speed
-	var lerp_factor := clamp(_acceleration * delta, 0.0, 1.0)
+	var lerp_factor: float = clamp(_acceleration * delta, 0.0, 1.0)
 
 	# Apply velocity with tolerance to avoid jitter
 	target_velocity = target_velocity.lerp(desired_velocity, lerp_factor)
@@ -145,7 +153,7 @@ func _process_follower_logic(delta: float) -> void:
 # =======================================================
 # TARGET NODE
 # =======================================================
-func _get_target_node() -> CharacterBody2D:
+func _get_target_node() -> Character:
 	# Leader follows no one
 	if party_position == FIRST_FOLLOWER_POSITION and PartyManager.current_character.size() > 0:
 		return PartyManager.current_character[0]
@@ -181,7 +189,7 @@ func _update_animation() -> void:
 # =======================================================
 func place_in_party_position() -> void:
 	# Get the target node to follow
-	var target_node: CharacterBody2D = null
+	var target_node: Character = null
 
 	# Leader follows no one
 	if party_position != LEADER_POSITION and party_position - 1 < PartyManager.party_members.size():

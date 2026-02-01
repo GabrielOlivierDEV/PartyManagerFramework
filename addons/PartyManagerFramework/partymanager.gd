@@ -23,7 +23,7 @@ var current_character: Array[Character] = []
 # -------------------------------------------------------------------
 # --- Adds a character to the party ---
 # -------------------------------------------------------------------
-func add_to_party(character: CharacterBody2D) -> void:
+func add_to_party(character: Character) -> void:
 	# Ignore if already in the party
 	if character in party_members:
 		return
@@ -44,7 +44,7 @@ func add_to_party(character: CharacterBody2D) -> void:
 # -------------------------------------------------------------------
 # --- Removes a character from the party ---
 # -------------------------------------------------------------------
-func remove_from_party(character: CharacterBody2D) -> void:
+func remove_from_party(character: Character) -> void:
 	# Ignore if not in the party
 	if character not in party_members:
 		return
@@ -62,9 +62,9 @@ func remove_from_party(character: CharacterBody2D) -> void:
 # -------------------------------------------------------------------
 # --- Switch control to another character ---
 # -------------------------------------------------------------------
-func play_as(character: CharacterBody2D) -> void:
+func play_as(character: Character) -> void:
 	# --- Variables to track old character state ---
-	var old_char: CharacterBody2D = null
+	var old_char: Character = null
 	var old_was_in_party := false
 
 	# --- Already controlling this character ---
@@ -124,7 +124,7 @@ func play_as(character: CharacterBody2D) -> void:
 # -------------------------------------------------------------------
 func reorganize_party() -> void:
 	for i in range(party_members.size()):
-		var member = party_members[i]
+		var member: Character = party_members[i]
 		member.party_position = i
 		member.place_in_party_position()
 
@@ -134,7 +134,7 @@ func reorganize_party() -> void:
 func close_party() -> void:
 	# --- Clean current_character safely ---
 	if current_character.size() > 0:
-		var player_char := current_character[0]
+		var player_char: Character = current_character[0]
 
 		# Reset state
 		player_char.playable = false
