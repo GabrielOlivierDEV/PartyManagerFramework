@@ -65,6 +65,10 @@ func _physics_process(delta: float) -> void:
 	elif is_on_party:
 		# Process follower movement
 		_process_follower_logic(delta)
+	
+	else:
+		# Not playable and not in party - do nothing
+		return
 
 	# Apply physics and animation regardless of control type
 	move_and_slide()
