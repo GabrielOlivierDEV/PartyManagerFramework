@@ -94,7 +94,7 @@ func _process_player_input(delta: float) -> void:
 
 	# Smoothly interpolate current velocity towards target velocity
 	var factor: float = _acceleration if input_dir != Vector2.ZERO else _friction
-	var lerp_factor: float = clamp(factor * delta, 0.0, 1.0)
+	var lerp_factor: float = 1.0 - exp(-factor * delta)
 
 	velocity = velocity.lerp(target_velocity, lerp_factor)
 
@@ -148,7 +148,7 @@ func _process_follower_logic(delta: float) -> void:
 
 	var follow_speed: float = lerp(min_speed, max_speed, t)
 	var desired_velocity: Vector2 = direction * follow_speed
-	var lerp_factor: float = clamp(_acceleration * delta, 0.0, 1.0)
+	var lerp_factor: float = 1.0 - exp(-_acceleration * delta)
 
 	# Apply velocity with tolerance to avoid jitter
 	target_velocity = target_velocity.lerp(desired_velocity, lerp_factor)
