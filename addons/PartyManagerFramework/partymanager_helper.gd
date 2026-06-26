@@ -1,5 +1,6 @@
 @tool
 @icon("res://addons/PartyManagerFramework/icon.svg")
+extends Node
 class_name PartyManagerHelper
 
 @export var MAX_PARTY_MEMBERS := 4
