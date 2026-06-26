@@ -89,11 +89,6 @@ func play_as(character: Character) -> void:
 		if not old_was_in_party:
 			party_members.append(old_char)
 
-	else:
-		# First playable character EVER
-		if character in party_members:
-			party_members.erase(character)
-
 	# New active character
 	character.is_on_party = false
 	character.playable = true
