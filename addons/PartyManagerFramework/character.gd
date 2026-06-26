@@ -40,6 +40,7 @@ const INTERPOLATION_DISTANCE := 200.0         # Range used for speed interpolati
 var party_position: int = LEADER_POSITION     # Position in the party queue (0 = leader)
 var should_follow := false                    # Whether the character should move towards the leader
 var target_velocity: Vector2 = Vector2.ZERO   # Velocity target used for interpolation
+var paused := false                           # Whether the character is paused (no movement or animation)
 
 # ====================================================================
 #   READY
@@ -58,6 +59,12 @@ func _ready() -> void:
 # PHYSICS PROCESS
 # =======================================================
 func _physics_process(delta: float) -> void:
+	if paused:
+		if animated_sprite:
+			animated_sprite.pause()
+		velocity = Vector2.ZERO
+		return
+
 	if playable:
 		# Process player-controlled movement
 		_process_player_input(delta)
@@ -209,3 +216,20 @@ func place_in_party_position() -> void:
 		dir = Vector2.DOWN
 
 	global_position = target_node.global_position - dir * stop_distance
+
+# =======================================================
+# PAUSE / RESUME
+# =======================================================
+func _pause_character() -> void:
+	if playable:
+		paused = true
+		if animated_sprite:
+			animated_sprite.pause()
+		velocity = Vector2.ZERO
+		print(character_id, " pausing character")
+
+func _resume_character() -> void:
+	paused = false
+	if animated_sprite:
+		animated_sprite.play()
+	print(character_id, " resuming character")

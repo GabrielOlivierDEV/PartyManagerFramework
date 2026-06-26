@@ -114,6 +114,18 @@ func play_as(character: Character) -> void:
 
 	print(PLAYING_AS_MSG, character.name)
 
+
+# -------------------------------------------------------------------
+# --- Pause and resume character activity ---
+# -------------------------------------------------------------------
+func pause_character(character: Character) -> void:
+	# Pause the character's activity
+	character._pause_character()
+
+func resume_character(character: Character) -> void:
+	# Resume the character's activity
+	character._resume_character()
+
 # -------------------------------------------------------------------
 # --- Updates party positions ---
 # -------------------------------------------------------------------
