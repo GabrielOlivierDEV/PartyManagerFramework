@@ -226,10 +226,12 @@ func _pause_character() -> void:
 		if animated_sprite:
 			animated_sprite.pause()
 		velocity = Vector2.ZERO
+		set_physics_process(false)
 		print(character_id, " pausing character")
 
 func _resume_character() -> void:
 	paused = false
 	if animated_sprite:
 		animated_sprite.play()
+	set_physics_process(true)
 	print(character_id, " resuming character")
