@@ -74,7 +74,8 @@ func _physics_process(delta: float) -> void:
 		_process_follower_logic(delta)
 	
 	else:
-		# Not playable and not in party - do nothing
+		# Not playable
+		set_physics_process(false)
 		return
 
 	# Apply physics and animation regardless of control type
@@ -199,6 +200,9 @@ func _update_animation() -> void:
 # PARTY POSITIONING
 # =======================================================
 func place_in_party_position() -> void:
+
+	set_physics_process(true)
+
 	# Get the target node to follow
 	var target_node: Character = null
 
@@ -221,6 +225,9 @@ func place_in_party_position() -> void:
 # PAUSE / RESUME
 # =======================================================
 func _pause_character() -> void:
+	if not playable and not is_on_party: 
+		return
+
 	if playable:
 		paused = true
 		if animated_sprite:
@@ -230,6 +237,9 @@ func _pause_character() -> void:
 		print(character_id, " pausing character")
 
 func _resume_character() -> void:
+	if not playable and not is_on_party: 
+		return
+
 	paused = false
 	if animated_sprite:
 		animated_sprite.play()
