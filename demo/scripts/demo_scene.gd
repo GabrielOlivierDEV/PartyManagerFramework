@@ -4,10 +4,10 @@ extends Node2D
 # This is a demo scene to showcase the PartyManager functionality.
 # It allows adding characters to the party and switching between them.
 # ------------------------
-@onready var blue = $Blue
-@onready var pink = $Pink
-@onready var purple = $Purple
-@onready var orange = $Orange
+@onready var blue := $Blue
+@onready var pink := $Pink
+@onready var purple := $Purple
+@onready var orange := $Orange
 
 # Flags to determine if the player wants to switch to a character after adding them to the party
 var play_as_purple = false
