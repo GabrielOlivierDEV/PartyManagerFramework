@@ -10,7 +10,7 @@ When a character is added to the party, it is assigned a `party_position` which 
 
 ## API reference — functions, variables and behavior
 
-### `PartyManager.play_as(character: CharacterBody2D)`
+### `PartyManager.play_as(character: Character)`
 
 Switches player control to the selected character.
 
@@ -21,7 +21,7 @@ Switches player control to the selected character.
 - Alternatively you can set your player node (with the `character.gd` script) as "playable" on the inspector!
 ![Alt text](read_me_assets/playable.png)
 
-### `PartyManager.add_to_party(npc: CharacterBody2D)`
+### `PartyManager.add_to_party(npc: Character)`
 
 Adds an NPC to the party if there is room.
 
@@ -30,7 +30,7 @@ Adds an NPC to the party if there is room.
 - Will not add the NPC if it’s already in the party.
 - Limit: 4 members besides the player. (Customizable)
 
-### `PartyManager.remove_from_party(npc: CharacterBody2D)`
+### `PartyManager.remove_from_party(npc: Character)`
 
 Removes an NPC from the party.
 
@@ -112,7 +112,7 @@ func _on_add_purple_to_party_body_entered(body: Node2D) -> void:
   - Use `$AnimatedSprite2D` for animations
   - Animation must have "idle", "up", "down", "left" and "right"
   - Move using `velocity`
-  - Inherit from `CharacterBody2D`
+  - Inherit from `Character`
 
 ## Setup
 
@@ -136,8 +136,8 @@ func _on_add_purple_to_party_body_entered(body: Node2D) -> void:
 4. **Advanced Configuration**
    - To change the maximum number of party members, edit the `MAX_PARTY_MEMBERS` exported variable in `res://addons/PartyManagerFramework/partymanager.gd` or add the `PartyManager` helper node (`partymanager_helper.gd`) to a scene and set the value in the inspector. The helper syncs the inspector value to the autoload at runtime.
    - The plugin also exposes runtime public arrays you can use from code:
-     - `PartyManager.party_members` — Array[CharacterBody2D] for follower members.
-     - `PartyManager.current_character` — Array[CharacterBody2D] holding the current playable character (index 0 if set).
+     - `PartyManager.party_members` — Array[Character] for follower members.
+     - `PartyManager.current_character` — Array[Character] holding the current playable character (index 0 if set).
 
    Example — read the currently playable character and the followers:
    ```gdscript
@@ -201,9 +201,9 @@ These are added only if they aren't already present in your project settings.
 The framework works as-is, but here are a few API improvements I'm planning to add in the future for better usability:
 
 - Add accessor helpers to PartyManager API (example names):
-   - ~~`get_current_player() -> CharacterBody2D` — returns the current playable character or `null`.~~ (done)
-   - ~~`get_party_members() -> Array[CharacterBody2D]` — returns a copy or reference to party members.~~ (done)
-   - ~~`is_in_party(character: CharacterBody2D) -> bool` — quick membership check.~~ (done)
+   - ~~`get_current_player() -> Character` — returns the current playable character or `null`.~~ (done)
+   - ~~`get_party_members() -> Array[Character]` — returns a copy or reference to party members.~~ (done)
+   - ~~`is_in_party(character: Character) -> bool` — quick membership check.~~ (done)
 
 - Add signals for easy reaction to changes:
    - `signal party_changed()`
