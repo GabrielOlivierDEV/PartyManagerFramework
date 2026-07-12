@@ -141,8 +141,8 @@ func _on_add_purple_to_party_body_entered(body: Node2D) -> void:
 
    Example — read the currently playable character and the followers:
    ```gdscript
-   var current_player = PartyManager.current_character.size() > 0 ? PartyManager.current_character[0] : null
-   var members = PartyManager.party_members
+   var current_player = PartyManager.get_current_player()
+   var members = PartyManager.get_party_members()
    ```
 
 5. **Done!**
