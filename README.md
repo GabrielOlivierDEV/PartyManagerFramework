@@ -201,13 +201,15 @@ These are added only if they aren't already present in your project settings.
 The framework works as-is, but here are a few API improvements I'm planning to add in the future for better usability:
 
 - Add accessor helpers to PartyManager API (example names):
-   - `get_current_player() -> CharacterBody2D` — returns the current playable character or `null`.
-   - `get_party_members() -> Array[CharacterBody2D]` — returns a copy or reference to party members.
-   - `is_in_party(character: CharacterBody2D) -> bool` — quick membership check.
+   - ~~`get_current_player() -> CharacterBody2D` — returns the current playable character or `null`.~~ (done)
+   - ~~`get_party_members() -> Array[CharacterBody2D]` — returns a copy or reference to party members.~~ (done)
+   - ~~`is_in_party(character: CharacterBody2D) -> bool` — quick membership check.~~ (done)
 
 - Add signals for easy reaction to changes:
    - `signal party_changed()`
    - `signal current_player_changed(new_player, old_player)`
+
+- Make a data-driven interface to add characters. Paving the way to instanciate characters that are not currently child-nodes in the tree scene. 
 
 These can make integrations (UI, AI triggers, quests) much simpler.
 
