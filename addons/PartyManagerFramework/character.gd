@@ -228,13 +228,12 @@ func _pause_character() -> void:
 	if not playable and not is_on_party: 
 		return
 
-	if playable:
-		paused = true
-		if animated_sprite:
-			animated_sprite.pause()
-		velocity = Vector2.ZERO
-		set_physics_process(false)
-		print(character_id, " pausing character")
+	paused = true
+	if animated_sprite:
+		animated_sprite.pause()
+	velocity = Vector2.ZERO
+	set_physics_process(false)
+	print(character_id, " pausing character")
 
 func _resume_character() -> void:
 	if not playable and not is_on_party: 
