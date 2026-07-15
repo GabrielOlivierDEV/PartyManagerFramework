@@ -46,7 +46,7 @@ var paused := false                           # Whether the character is paused 
 #   READY
 # ====================================================================
 func _ready() -> void:
-	# Register this character with PartyManager if needed
+	# Play as this character if marked as playable
 	if playable:
 		PartyManager.play_as(self)
 
@@ -167,7 +167,7 @@ func _process_follower_logic(delta: float) -> void:
 # =======================================================
 func _get_target_node() -> Character:
 	# Leader follows no one
-	if party_position == FIRST_FOLLOWER_POSITION and PartyManager.current_character.size() > 0:
+	if party_position == FIRST_FOLLOWER_POSITION:
 		return PartyManager.current_character[0]
 
 	# Other members follow the one before them
@@ -200,7 +200,7 @@ func _update_animation() -> void:
 # PARTY POSITIONING
 # =======================================================
 func place_in_party_position() -> void:
-
+	# Enable physics processing to allow movement
 	set_physics_process(true)
 
 	# Get the target node to follow
