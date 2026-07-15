@@ -37,7 +37,7 @@ const INTERPOLATION_DISTANCE := 200.0         # Range used for speed interpolati
 @export var playable := false                 # Position in the party queue (0 = leader)
 @export var is_on_party := false              # Whether the character is currently in the party
 
-var party_position: int = LEADER_POSITION     # Position in the party queue (0 = leader)
+var party_position: int = NO_PARTY_POSITION   # Position in the party queue (0 = leader)
 var should_follow := false                    # Whether the character should move towards the leader
 var target_velocity: Vector2 = Vector2.ZERO   # Velocity target used for interpolation
 var paused := false                           # Whether the character is paused (no movement or animation)
