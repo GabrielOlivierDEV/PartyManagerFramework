@@ -200,9 +200,9 @@ These are added only if they aren't already present in your project settings.
 The framework works as-is, but here are a few API improvements I'm planning to add in the future for better usability:
 
 - Add accessor helpers to PartyManager API (example names):
-   - ~~`get_current_player() -> Character` — returns the current playable character or `null`.~~ (done)
-   - ~~`get_party_members() -> Array[Character]` — returns a copy or reference to party members.~~ (done)
-   - ~~`is_in_party(character: Character) -> bool` — quick membership check.~~ (done)
+   - ~~`get_current_player() -> String` — returns the current playable character or `null`.~~ (done)
+   - ~~`get_party_members() -> Array[String]` — returns a copy or reference to party members.~~ (done)
+   - ~~`is_in_party(character_id: String) -> bool` — quick membership check.~~ (done)
 
 - Add signals for easy reaction to changes:
    - `signal party_changed()`
