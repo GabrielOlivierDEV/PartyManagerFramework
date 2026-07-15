@@ -1,7 +1,7 @@
 # Party Manager Framework
 A modular Godot 4.4.x plugin that offers a **party and character control system** with **built-in character–NPC scripting**.
 
-Designed for **RPG-style games** where you control one playable character and up to **4 dynamic NPC followers** (configurable via `MAX_PARTY_MEMBERS`), with smooth follower logic, party switching, and positional syncing. Perfect for games where party coordination, character switching, and AI follower behavior are key.
+Designed for **RPG-style games** where you control one playable character and up to **4 dynamic NPC followers** (configurable via `MAX_PARTY_MEMBERS`), with smooth follower logic, party switching, and positional syncing. Perfect for games where party coordination, character switching, and AI follower behavior are needed.
 
 ## How it works
 The Party Manager Framework uses a combination of Godot's node system, groups, and custom scripts to manage party members and their behavior. Each character in the game is expected to have a script (like `character.gd`) that defines its movement, animation, and party-related properties.
@@ -48,8 +48,7 @@ Removes all NPCs from the party.
 ### `PartyManager.change_scene()`
 
 Clears party data (the default implementation clears both `party_members` and `current_character`).
-
-Note: The code intentionally clears the party on scene change. If you want to preserve the party across scenes, you can change the plugin's behavior (for example, by modifying `change_scene()` to keep data in the autoload singleton) — but the default plugin clears the lists.
+This function was created to avoid a "ghost party" inside the autoload after scene changes.
 
 ### `PartyManager.is_in_party(character_id: String)`
 
