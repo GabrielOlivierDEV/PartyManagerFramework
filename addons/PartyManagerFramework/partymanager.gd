@@ -41,6 +41,7 @@ func add_to_party(character: Character) -> void:
 
 	print(NPC_ADDED_MSG, character.name, POSITION_MSG, character.party_position)
 
+
 # -------------------------------------------------------------------
 # --- Removes a character from the party ---
 # -------------------------------------------------------------------
@@ -58,6 +59,7 @@ func remove_from_party(character: Character) -> void:
 	reorganize_party()
 
 	print(NPC_REMOVED_MSG, character.name)
+
 
 # -------------------------------------------------------------------
 # --- Switch control to another character ---
@@ -121,11 +123,12 @@ func play_as(character: Character) -> void:
 # -------------------------------------------------------------------
 func pause_character(character: Character) -> void:
 	# Pause the character's activity
-	character._pause_character()
+	character.pause_character()
+
 
 func resume_character(character: Character) -> void:
 	# Resume the character's activity
-	character._resume_character()
+	character.resume_character()
 
 # -------------------------------------------------------------------
 # --- Updates party positions ---
@@ -135,6 +138,7 @@ func reorganize_party() -> void:
 		var member: Character = party_members[i]
 		member.party_position = i
 		member.place_in_party_position()
+
 
 # -------------------------------------------------------------------
 # --- Close the entire party ---
@@ -174,6 +178,7 @@ func close_party() -> void:
 
 	print(PARTY_CLOSED_MSG)
 
+
 # -------------------------------------------------------------------
 # --- Scene change cleanup ---
 # -------------------------------------------------------------------
@@ -181,6 +186,7 @@ func change_scene():
 	### Guarantee no references to nodes remain
 	current_character.clear()
 	party_members.clear()
+
 
 # -------------------------------------------------------------------
 # --- Query functions ---
@@ -192,11 +198,13 @@ func is_in_party(character_id: String) -> bool:
 			return true
 	return false
 
+
 func get_current_player() -> String:
 	# Return the currently playable character, if any
 	if current_character.size() > 0:
 		return current_character[0].name
 	return ""
+
 
 func get_party_members() -> Array[String]:
 	# Return a list of names of all party members
@@ -205,6 +213,8 @@ func get_party_members() -> Array[String]:
 		names.append(member.name)
 	return names
 
+
 func get_party_size() -> int:
 	# Return the current number of party members
 	return party_members.size()
+
