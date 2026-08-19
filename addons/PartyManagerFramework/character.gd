@@ -55,6 +55,7 @@ func _ready() -> void:
 		PartyManager.add_to_party(self)
 		place_in_party_position()
 
+
 # =======================================================
 # PHYSICS PROCESS
 # =======================================================
@@ -82,6 +83,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	_update_animation()
 
+
 # =======================================================
 # PLAYER MOVEMENT
 # =======================================================
@@ -101,6 +103,7 @@ func _process_player_input(delta: float) -> void:
 	var lerp_factor: float = 1.0 - exp(-factor * delta)
 
 	velocity = velocity.lerp(target_velocity, lerp_factor)
+
 
 # =======================================================
 # FOLLOWER LOGIC
@@ -154,6 +157,7 @@ func _process_follower_logic(delta: float) -> void:
 	target_velocity = target_velocity.lerp(desired_velocity, lerp_factor)
 	velocity = target_velocity
 
+
 # =======================================================
 # TARGET NODE
 # =======================================================
@@ -168,6 +172,7 @@ func _get_target_node() -> Character:
 		return PartyManager.party_members[index]
 
 	return null
+
 
 # =======================================================
 # ANIMATION UPDATE
@@ -187,6 +192,7 @@ func _update_animation() -> void:
 		animated_sprite.play("right" if velocity.x > 0 else "left")
 	else:
 		animated_sprite.play("down" if velocity.y > 0 else "up")
+
 
 # =======================================================
 # PARTY POSITIONING
@@ -213,6 +219,7 @@ func place_in_party_position() -> void:
 
 	global_position = target_node.global_position - dir * stop_distance
 
+
 # =======================================================
 # SIGNALS
 # =======================================================
@@ -227,6 +234,7 @@ func pause_character() -> void:
 	set_physics_process(false)
 	print(character_id, " pausing character")
 
+
 func resume_character() -> void:
 	if not playable and not is_on_party: 
 		return
@@ -237,18 +245,23 @@ func resume_character() -> void:
 	set_physics_process(true)
 	print(character_id, " resuming character")
 
+
 func hide_character() -> void:
 	pause_character()
 	hide()
+
 
 func show_character() -> void:
 	resume_character()
 	show()
 
+
 func enable_camera_2d() -> void:
 	if use_camera_2d:
 		camera_2d.enabled = true
 
+
 func disable_camera_2d() -> void:
 	if use_camera_2d:
 		camera_2d.enabled = false
+
