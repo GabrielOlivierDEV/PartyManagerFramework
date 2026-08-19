@@ -79,6 +79,7 @@ func play_as(character: Character) -> void:
 		# Old character becomes follower
 		old_char.playable = false
 		old_char.should_follow = true
+		old_char.disable_camera_2d()
 		old_char.is_on_party = true
 
 		# If the new character is already in party, remove it
@@ -93,7 +94,7 @@ func play_as(character: Character) -> void:
 	character.is_on_party = false
 	character.playable = true
 	character.should_follow = false
-
+	character.enable_camera_2d()
 	party_members.insert(0, character)
 
 	# --- Update party order and positions ---

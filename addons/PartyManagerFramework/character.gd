@@ -92,10 +92,6 @@ func _process_player_input(delta: float) -> void:
 		Input.get_axis("move_up", "move_down")
 	).normalized()
 
-	# Camera toggle
-	if camera_2d:
-		camera_2d.enabled = use_camera_2d
-
 	# Determine target velocity based on input
 	var max_speed: float = _speed_cap if Input.is_action_pressed("run") else _move_speed
 	target_velocity = input_dir * max_speed if input_dir != Vector2.ZERO else Vector2.ZERO
@@ -110,10 +106,6 @@ func _process_player_input(delta: float) -> void:
 # FOLLOWER LOGIC
 # =======================================================
 func _process_follower_logic(delta: float) -> void:
-	# Disable camera for followers
-	if camera_2d:
-		camera_2d.enabled = false
-
 	# If no party position assigned, do nothing
 	if party_position == NO_PARTY_POSITION:
 		return
@@ -222,9 +214,9 @@ func place_in_party_position() -> void:
 	global_position = target_node.global_position - dir * stop_distance
 
 # =======================================================
-# PAUSE / RESUME
+# SIGNALS
 # =======================================================
-func _pause_character() -> void:
+func pause_character() -> void:
 	if not playable and not is_on_party: 
 		return
 
@@ -235,7 +227,7 @@ func _pause_character() -> void:
 	set_physics_process(false)
 	print(character_id, " pausing character")
 
-func _resume_character() -> void:
+func resume_character() -> void:
 	if not playable and not is_on_party: 
 		return
 
@@ -244,3 +236,19 @@ func _resume_character() -> void:
 		animated_sprite.play()
 	set_physics_process(true)
 	print(character_id, " resuming character")
+
+func hide_character() -> void:
+	pause_character()
+	hide()
+
+func show_character() -> void:
+	resume_character()
+	show()
+
+func enable_camera_2d() -> void:
+	if use_camera_2d:
+		camera_2d.enabled = true
+
+func disable_camera_2d() -> void:
+	if use_camera_2d:
+		camera_2d.enabled = false
